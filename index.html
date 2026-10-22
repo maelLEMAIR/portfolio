@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr" data-theme="forest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mawel – Développeur C++, moteur de jeu et rendu</title>
+<meta name="description" content="Portfolio de Mawel, étudiant en développement de jeux vidéo : C++, moteur 3D, architecture ECS et réseau UDP.">
+<meta name="theme-color" content="#101216">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mawel – Développeur C++, moteur de jeu et rendu">
+<meta property="og:description" content="Portfolio de Mawel : C++, moteur 3D, architecture ECS et réseau UDP.">
+<!-- À MODIFIER après déploiement : URL absolue de votre image de partage (1200x630) -->
+<meta property="og:image" content="https://maellemair.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/themes.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Aller au contenu</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <div class="id">
+      <a class="brand" href="#home">Maël LEMAIRE</a>
+      <p class="rail-role" data-i18n="railRole"></p>
+    </div>
+    <nav data-i18n-aria="navLabel" aria-label="Navigation principale">
+      <ul id="nav-links">
+        <li><a href="#home"><span>01</span><b data-i18n="nHome">Accueil</b></a></li>
+        <li><a href="#projects"><span>02</span><b data-i18n="nProjects">Projets</b></a></li>
+        <li><a href="#skills"><span>03</span><b data-i18n="nSkills">Compétences</b></a></li>
+        <li><a href="#journey"><span>04</span><b data-i18n="nJourney">Parcours</b></a></li>
+        <li><a href="#contact"><span>05</span><b data-i18n="nContact">Contact</b></a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang" role="group" data-i18n-aria="langLabel" aria-label="Langue">
+        <button type="button" data-lang="fr" lang="fr">FR</button>
+        <button type="button" data-lang="en" lang="en">EN</button>
+      </div>
+      <a class="btn small" data-site="github" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="rail-li" data-site="linkedin" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <button type="button" class="btn small menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links" data-i18n="menu">Menu</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section id="home" class="hero">
+    <div class="wrap">
+      <p class="avail" id="avail" hidden><span class="dot" aria-hidden="true"></span><span data-i18n="availText"></span></p>
+      <h1 data-i18n="heroTitle"></h1>
+      <div class="hero-bottom">
+        <div class="photo media">
+          <span class="ph" data-i18n="photoSlot"></span>
+          <img id="photo" data-i18n-alt="photoAlt" alt="" decoding="async">
+        </div>
+        <div>
+          <p class="role" data-i18n="heroRole"></p>
+          <p class="lead" data-i18n="heroIntro"></p>
+          <div class="actions">
+            <a class="btn primary" href="#projects" data-i18n="ctaProjects"></a>
+            <a class="btn" href="#contact" data-i18n="ctaContact"></a>
+          </div>
+          <p class="social">
+            <a data-site="github" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a data-site="linkedin" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <h2 data-i18n="aboutTitle"></h2>
+        <p class="big" data-i18n="aboutP1"></p>
+        <p data-i18n="aboutP2"></p>
+      </div>
+      <dl class="facts reveal">
+        <div><dt data-i18n="f1l"></dt><dd data-i18n="f1v"></dd></div>
+        <div><dt data-i18n="f2l"></dt><dd data-i18n="f2v"></dd></div>
+        <div><dt data-i18n="f3l"></dt><dd data-i18n="f3v"></dd></div>
+        <div><dt data-i18n="f4l"></dt><dd data-i18n="f4v"></dd></div>
+        <div><dt data-i18n="f5l"></dt><dd data-i18n="f5v"></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 data-i18n="projectsTitle"></h2>
+        <p data-i18n="projectsIntro"></p>
+      </div>
+      <div class="filters" id="filters" role="group" data-i18n-aria="filtersLabel" aria-label="Filtrer les projets"></div>
+      <ul class="grid" id="grid"></ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 data-i18n="skillsTitle"></h2>
+        <p data-i18n="skillsIntro"></p>
+      </div>
+      <div class="skills" id="skills-list"></div>
+      <div class="interests reveal" id="interests"></div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 data-i18n="journeyTitle"></h2></div>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact">
+      <h2 data-i18n="contactTitle"></h2>
+      <p class="lead" data-i18n="contactText"></p>
+      <p class="mail-line"><a id="mail-link" href="#"></a></p>
+      <div class="actions">
+        <a class="btn primary" id="mail-btn" href="#" data-i18n="mail"></a>
+        <button type="button" class="btn" id="copy-btn" data-i18n="copy"></button>
+        <a class="btn" id="cv-btn" href="#" download hidden data-i18n="cv"></a>
+      </div>
+      <p class="social">
+        <a data-site="github" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a data-site="linkedin" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </p>
+      <p id="copy-status" class="status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-in">
+    <div>
+      <p class="brand">Maël LEMAIRE</p>
+      <p class="muted" data-i18n="footerRole"></p>
+      <p class="muted">© <span id="year"></span> Maël Lemaire. <span data-i18n="rights"></span></p>
+    </div>
+    <nav data-i18n-aria="footerNav" aria-label="Pied de page">
+      <ul>
+        <li><a href="#projects" data-i18n="nProjects"></a></li>
+        <li><a href="#skills" data-i18n="nSkills"></a></li>
+        <li><a href="#journey" data-i18n="nJourney"></a></li>
+        <li><a href="#contact" data-i18n="nContact"></a></li>
+        <li><a data-site="github" href="#" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a data-site="linkedin" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <div class="dlg-in">
+    <button type="button" class="btn small close" id="dlg-close" data-i18n="close"></button>
+    <div id="dlg-body"></div>
+  </div>
+</dialog>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

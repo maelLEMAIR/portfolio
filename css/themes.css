@@ -1,0 +1,22 @@
+/* =====================================================================
+   THEMES — pour changer de style, ajoutez un attribut sur <html> dans
+   index.html :  <html lang="fr" data-theme="dark">
+   Valeurs : (aucune) = papier + colonne sombre, bleu | dark | forest
+   Pour créer votre thème : copiez un bloc et changez les couleurs.
+   ===================================================================== */
+
+/* Tout sombre, accent ambre */
+[data-theme="dark"]{
+  --bg:#0f1012; --surface:#17181b; --surface-2:#1e2024; --line:#26282d; --line-2:#3a3d44;
+  --text:#ecebe6; --muted:#9a9ca3; --text-soft:#cfcdc6;
+  --accent:#f0b454; --accent-ink:#1a1305; --accent-hover:#f6c874;
+  --rail-bg:#0a0b0d; --rail-accent:#f0b454; --backdrop:rgba(5,5,6,.75);
+}
+
+/* Vert : fond sauge clair, colonne vert profond */
+[data-theme="forest"]{
+  --bg:#eceee7; --surface:#f7f8f3; --surface-2:#dfe3d8; --line:#d3d8cc; --line-2:#b3baa9;
+  --text:#12150f; --muted:#555c4f; --text-soft:#2f342b;
+  --accent:#0f6b47; --accent-ink:#ffffff; --accent-hover:#138a5b;
+  --rail-bg:#0f1f19; --rail-line:#1f352b; --rail-accent:#8fe3b5; --backdrop:rgba(8,18,13,.6);
+}
