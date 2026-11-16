@@ -4,6 +4,12 @@
    Un texte identique dans les deux langues peut s'écrire simplement "...".
    ===================================================================== */
 
+const MODES = {
+  light: "light-pink",
+  dark: "pink",
+  default: "auto"
+};
+
 const SITE = {
   name: "Mawel",
   email: "m4w3l.pro@gmail.com",
@@ -209,7 +215,8 @@ const I18N = {
     mail: "Envoyer un email", copy: "Copier mon email", cv: "Télécharger mon CV",
     copied: "Adresse copiée dans le presse-papiers.", copyFail: "Copie impossible. Adresse :",
     mailSubject: "Stage / alternance – prise de contact",
-    footerNav: "Pied de page", footerRole: "Développeur C++ — Moteur de jeu & Rendu", rights: "Tous droits réservés."
+    footerNav: "Pied de page", footerRole: "Développeur C++ — Moteur de jeu & Rendu", rights: "Tous droits réservés.",
+    themeLabel: "Thème", modeLight: "Thème clair", modeDark: "Thème sombre"
   },
   en: {
     title: "Mawel – C++ Developer, Game Engine & Rendering",
@@ -246,6 +253,7 @@ const I18N = {
     mail: "Send an email", copy: "Copy my email", cv: "Download my résumé",
     copied: "Address copied to the clipboard.", copyFail: "Copy failed. Address:",
     mailSubject: "Internship / apprenticeship – getting in touch",
-    footerNav: "Footer", footerRole: "C++ Developer — Game Engine & Rendering", rights: "All rights reserved."
+    footerNav: "Footer", footerRole: "C++ Developer — Game Engine & Rendering", rights: "All rights reserved.",
+    themeLabel: "Theme", modeLight: "Light theme", modeDark: "Dark theme"
   }
 };

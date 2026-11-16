@@ -6,12 +6,14 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 
 let lang = 'fr', filter = 'all', openId = null;
 try { const s = localStorage.getItem('lang'); if (s === 'fr' || s === 'en') lang = s; } catch (e) {}
+let mode = document.documentElement.dataset.mode || 'dark';
 const L = v => v == null ? '' : typeof v === 'string' ? v : (v[lang] ?? v.fr ?? '');
 const T = k => (I18N[lang] && I18N[lang][k]) ?? k;
 
 /* Image absente : on la masque, le texte de remplacement derrière reste visible */
 document.addEventListener('error', e => { if (e.target.tagName === 'IMG') e.target.classList.add('broken'); }, true);
 
+  
 /* ---------- Médias ---------- */
 function archetypeSVG() {
   let s = '';
@@ -135,8 +137,15 @@ function applyI18n() {
   $('#photo').setAttribute('src', SITE.photo);
   $('#year').textContent = new Date().getFullYear();
 }
+
+function applyTheme() {
+  const root = document.documentElement, id = MODES[mode];
+  if (id === 'paper') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', id);
+  $$('.themes button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+}
+  
 function renderAll() {
-  applyI18n(); renderFilters(); renderProjects(); renderSkills(); renderJourney(); renderContact();
+  applyI18n(); applyTheme(); renderFilters(); renderProjects(); renderSkills(); renderJourney(); renderContact();
   if (openId) fillDialog(openId);
   observeReveals();
 }
@@ -169,6 +178,12 @@ $('#grid').addEventListener('click', e => {
   const b = e.target.closest('.open'); if (b) openProject(b.dataset.id);
 });
 $$('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+$$('.themes button').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.mode;
+  try { localStorage.setItem('mode', mode); } catch (e) {}
+  applyTheme();
+}));
 
 const nav = $('#nav'), menuBtn = $('#menu-btn');
 const closeMenu = () => { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); };

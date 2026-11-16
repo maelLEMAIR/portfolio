@@ -64,9 +64,11 @@ section{padding:clamp(3.5rem,8vw,6rem) 0;border-top:1px solid var(--line-2)}
 .nav :focus-visible{outline-color:var(--rail-accent)}
 .rail-li{font-size:.9rem;color:var(--rail-muted);text-underline-offset:4px}
 .rail-li:hover{color:var(--rail-text)}
-.lang{display:flex;border:1px solid #3a3f48;border-radius:var(--radius);overflow:hidden}
-.lang button{background:none;border:0;color:var(--rail-muted);font:600 .8rem var(--font-mono);padding:.4rem .7rem;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--rail-accent);color:#0b0d12}
+.lang,.themes{display:flex;border:1px solid #3a3f48;border-radius:var(--radius);overflow:hidden}
+.lang button,.themes button{background:none;border:0;color:var(--rail-muted);font:600 .8rem var(--font-mono);padding:.4rem .7rem;cursor:pointer}
+.lang button[aria-pressed="true"],.themes button[aria-pressed="true"]{background:var(--rail-accent);color:#0b0d12}
+.themes button{display:grid;place-items:center;padding:.45rem .7rem}
+.themes svg{width:16px;height:16px}
 .menu-btn{display:none}
 
 /* Accueil */
