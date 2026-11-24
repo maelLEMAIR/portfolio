@@ -25,6 +25,7 @@ const CATEGORIES = [
   { id: "engine",   label: { fr: "C++ / Moteur",     en: "C++ / Engine" } },
   { id: "network",  label: { fr: "Réseau",           en: "Networking" } },
   { id: "gameplay", label: { fr: "Gameplay",         en: "Gameplay" } },
+  { id: "rendu",    label: { fr: "Rendu",            en: "Render" } },
   { id: "other",    label: { fr: "Autres projets",   en: "Other projects" } }
 ];
 
@@ -44,7 +45,7 @@ const PROJECTS = [
     art: "archetypes",   // illustration schématique tant qu'il n'y a pas de capture
     name: { fr: "Moteur 3D réseau, ECS data-oriented", en: "Networked 3D engine, data-oriented ECS" },
     type: { fr: "Projet moteur réalisé dans le cadre d'un stage", en: "Engine project built during an internship" },
-    status: { fr: "Prototype", en: "Prototype" }, statusKind: "proto",
+    status: { fr: "Prototype", en: "Prototype" }, statusKind: "done",
     categories: ["engine", "network"],
     tech: ["C++", "ECS", "Data-oriented", "Archetypes", "UDP"],
     short: {
@@ -74,26 +75,250 @@ const PROJECTS = [
     ],
     sections: [
       { title: { fr: "Contexte et objectifs", en: "Context and goals" },
-        body: { fr: "Projet réalisé pendant un stage en développement moteur et réseau, en équipe. Il vise une architecture moteur adaptée aux jeux vidéo et un travail sur des systèmes de bas niveau (entités, réseau).",
-                en: "Built during an engine and networking internship, as a team. It aims at an engine architecture suited to video games and work on low-level systems (entities, networking)." },
-        todo: true },
-      { title: { fr: "Architecture générale", en: "Overall architecture" }, todo: true },
+        body: { fr: 
+              "Un moteur 3D from scratch en C++ avec un renderer D3D12, un ECS à archétypes et une couche réseau client/serveur." + 
+              "Le serveur est autoritaire et headless (sans fenêtre ni rendu). Le client est un exécutable avec rendu.",
+                en: 
+              "A 3D engine built from scratch in C++ with a D3D12 renderer, an archetype-based ECS, and a client/server network layer." +
+              "The server is authoritative and headless (with no window or rendering). The client is an executable with rendering capabilities" }, todo: false},
+      { title: { fr: "Architecture générale", en: "Overall architecture" },
+        body: { fr:
+              "Core : utilitaires de base." +
+              "Engine : ECS et boucle moteur." +
+              "Render : D3D12." +
+              "Network : transport UDP et sérialisation." +
+              "NetworkBridge : réplication ECS ↔ réseau." +
+              "Sample : tests et démos.",
+          en:
+              "Core: Basic utilities." +
+              "Engine: ECS and engine loop." +
+              "Render: D3D12." +
+              "Network: UDP transport and serialization." +
+              "NetworkBridge: ECS ↔ network replication." +
+              "Sample: Tests and demos." },
+        images: [
+            { src: "assets/img/MoteurECS/archi.png",
+              alt: { fr: "Architecture générale", en: "Overall architecture" },
+              caption: { fr: "Architecture générale", en: "Overall architecture" } }
+          ] , todo: false},
       { title: { fr: "Fonctionnement du système ECS", en: "How the ECS works" },
-        body: { fr: "Le moteur repose sur une architecture ECS orientée données.", en: "The engine is built on a data-oriented ECS architecture." }, todo: true },
+        body: { fr: 
+              "EntityId sur 64 bits : index + version. Un ancien handle est détecté comme invalide, même si l'index est recyclé." +
+              "World sert de façade et expose AddComponent, Query, les systèmes et les observers." +
+              "Les systèmes ont des priorités et un tri stable." +
+              "Les Script, façon MonoBehaviour, existent à côté des systèmes." +
+              "Les composants doivent être trivially_copyable (vérifié par static_assert).",
+                en: 
+              "64-bit EntityId: index + version. An old handle is detected as invalid, even if the index is reused." +
+              "World acts as a facade and exposes AddComponent, Query, systems, and observers." +
+              "Systems have priorities and are sorted in a stable order." +
+              "Scripts, similar to MonoBehaviour, exist alongside systems." +
+              "Components must be trivially_copyable (verified by static_assert)." }},
       { title: { fr: "Organisation des entités et des composants par Archetypes", en: "Entities and components organized by Archetypes" },
-        body: { fr: "Les entités sont organisées selon la composition de leurs composants, grâce à un système d'Archetypes.", en: "Entities are organized by the composition of their components, using an Archetype system." }, todo: true },
+        body: { fr:
+              "Chaque archétype est une signature (bitset) avec une Column par composant. C'est du Structure of Arrays, donc compatible avec le cache." +
+              "Le graphe d'archétypes (arêtes add/remove) évite de recalculer une signature à chaque ajout ou retrait de composant." +
+              "MoveEntity copie les colonnes communes, et SwapRemove supprime en O(1).",
+          en:
+              "Each archetype is a signature (bitset) with one column per component. This is a Structure of Arrays, so it's cache-friendly." +
+              "The archetype graph (add/remove edges) avoids having to recalculate a signature every time a component is added or removed." +
+              "MoveEntity copies the shared columns, and SwapRemove deletes them in O(1)." }},
       { title: { fr: "Communication réseau UDP", en: "UDP networking" },
-        body: { fr: "Le moteur intègre des mécanismes de communication réseau reposant sur UDP.", en: "The engine includes networking mechanisms built on UDP." }, todo: true },
-      { title: { fr: "Problèmes techniques rencontrés et solutions apportées", en: "Technical problems and solutions" }, todo: true },
-      { title: { fr: "Captures d'écran, schémas d'architecture et extraits de code", en: "Screenshots, architecture diagrams and code samples" }, todo: true },
-      { title: { fr: "Bilan personnel et apprentissages", en: "Personal review and learnings" }, todo: true }
+        body: { fr:
+              "Un thread réseau dédié communique avec le thread logique via des files thread-safe." +
+              "La sérialisation binaire est faite maison, en big-endian." +
+              "Le protocole a 9 types de paquets : Connect, Snapshot, ComponentUpdate, Input, Ping, etc."+
+              "Les dirty flags donnent une réplication delta à 20 Hz, découplée de la simulation à 60 Hz."+
+              "Le client fait de l'interpolation d'entités avec Slerp, et le délai est adapté au ping mesuré.",
+          en:
+              "A dedicated network thread communicates with the logical thread via thread-safe queues." +
+              "Binary serialization is custom-built, in big-endian format." +
+              "The protocol has 9 packet types: Connect, Snapshot, ComponentUpdate, Input, Ping, etc." +
+              "Dirty flags enable delta replication at 20 Hz, decoupled from the 60 Hz simulation." +
+              "The client performs entity interpolation using Slerp, and the delay is adjusted based on the measured ping." }},
+      { title: { fr: "Problèmes techniques rencontrés et solutions apportées", en: "Technical problems and solutions" },
+        body: { fr:
+              "Détruire ou ajouter des entités pendant une Query : la solution est un snapshot des EntityId avec revalidation à chaque callback." +
+              "Handles périmés : versioning des entités." +
+              "Déplacements d'entités après un swap-remove : mise à jour de l'EntityRecord."+
+              "UDP non fiable : snapshot complet à la connexion, deltas périodiques et interpolation."+
+              "Saccades côté client : buffer de snapshots datés et affichage volontairement en retard."+
+              "Serveur léger : aucun système de rendu n'est enregistré côté serveur.",
+          en:
+              "Deleting or adding entities during a query: the solution is a snapshot of the EntityIDs with revalidation at each callback." +
+              "Expired handles: entity versioning." +
+              "Entity movements after a swap-remove: updating the EntityRecord." +
+              "Unreliable UDP: full snapshot on connection, periodic deltas, and interpolation." +
+              "Client-side stuttering: buffer of dated snapshots and intentionally delayed display." +
+              "Lightweight server: no rendering system is stored on the server side." }},
+      { title: { fr: "Bilan personnel et apprentissages", en: "Personal review and learnings"},
+        body: { fr:
+              "Première fois en solo sur la création d'un moteur type ECS en réseau." +
+              "J'ai adoré concevoir ce moteur et à comprendre plus en détail le fonctionnement data-oriented." +
+              "Ce projet m'a donnée envie de créer ma propre librairy graphique pour faire mon moteure de A à Z.",
+          en:
+              "My first time working solo on the development of a networked ECS-style engine." +
+              "I loved designing this engine and gaining a deeper understanding of how data-oriented systems work." +
+              "This project inspired me to create my own graphics library so I could build my engine from scratch." }},
+    ],
+    gallery: [
+      { src: "assets/img/MoteurECS/network.png", alt: { fr: "Fenêtre affichant 2 joueurs", en: "Window displaying 2 players" } },
+      { src: "assets/img/MoteurECS/xwing.png", alt: { fr: "Fenêtre affichant un obj importer", en: "Window displaying an imported object" } }
+    ]
+  },
+  {
+    id: "CPURender",
+    name: "CPURender",
+    type: { fr: "Moteur de rendu côté CPU", en: "CPU-based rendering engine" },
+    status: { fr: "Acédémique", en: "Prototype" }, statusKind: "done",
+    categories: ["engine", "rendu"],
+    tech: ["C++", "Rendu", "SDL", "OpenGL", { fr: "Développement d'outils", en: "Tool development" }],
+    short: {
+      fr: "Moteur de rendu côté CPU. Faire ce que la carte graphique fait mais avec seulement le CPU",
+      en: "CPU-based rendering engine. Does what a graphics card does, but using only the CPU."
+    },
+    long: {
+      fr: [
+        "CPURender est un projet académique fait sur 3 semaine en équipe de trois. Nous devions recréer les actions faites par la carte graphique mais avec seulement le CPU.",
+        "Pour l'affichage window nous avions le droit d'utiliser SDL une lib donnant accès de bas niveau au matériel graphique via OpenGL.",
+        "L'objectif est de retrouver les dimensions sans anomalie sans se perdre dans les autres espaces."
+      ],
+      en: [
+        "Dossier Anomalie Double is a multiplayer game project inspired by Exit 8. Players walk through rooms and must spot anomalies.",
+        "The idea relies on comparing what each player sees: if one player notices something odd that the other does not, it may signal an anomaly. If both players see the same thing, it is not an anomaly under the game's rule.",
+        "The goal is to find the dimensions without anomalies without getting lost in the other spaces."
+      ]
+    },
+    github: "https://github.com/maelLEMAIR/CPURender/releases/tag/v1.0",
+    images: [{ src: "assets/img/CPURender/cpu-render.png"}, { src: "assets/img/CPURender/cpu-render.png"}],
+    video: "assets/videos/CPURender/cpu-render.mp4",
+    videoSlot: true,
+    teamLabel: { fr: "Projet réalisé en collaboration avec", en: "Built in collaboration with" },
+    team: [ 
+        { name: "Hugo PONTHIEU", url: "https://www.linkedin.com/in/hugo-ponthieu-1b286b339/" }, 
+        { name: "Baptiste COMBEAU", url: "https://www.linkedin.com/in/baptiste-combeau/" } ],
+    sections: [
+      { title: { fr: "Aspects techniques", en: "Technical aspects" },
+        body: { fr: "Développé en C++, avec OpenGL pour les maths, SDL pour la window et du développement d'outils.",
+                en: "Developed in C++, using OpenGL for the math, SDL for the window, and tool development." }, todo: false },
+      { title: { fr: "Ma contribution", en: "My contribution" },
+        body: { fr: 
+            "Mise en place des textures. L'utilisateur peut utiliser la normal map, l'ARM texture (Ambient Occlusion, Roughness, Metalness) et la displacement Map." +
+            "Création de la shadow Map. Affichage des ombres avec une light. On affiche seulement les objets vu par la light.\n" + 
+            "Possibilité d'importer une animation et de la jouer dans le moteur. Utilisation de la lib Assimp pour l'import de fbx et de dae.\n" +
+            "Ajout de la transparence. Un objet peut être transparent, il affichera l'objet derrière lui et si il a de la refraction, il déformera la scène vu par l'objet.",
+                en:
+            "Setting up textures. The user can use the normal map, the ARM texture (Ambient Occlusion, Roughness, Metalness), and the displacement map.\n" +
+            "Creating the shadow map. Rendering shadows with a light. Only objects visible to the light are rendered.\n" +
+            "Ability to import an animation and play it in the engine. Use of the Assimp library to import FBX and DAE files.\n" +
+            "Adding transparency. An object can be transparent; it will display the object behind it, and if it has refraction, it will distort the scene as seen through the object." ,todo: false }}
+    ],
+    gallery: [
+      { src: "assets/img/CPURender/cpu-render.png", alt: { fr: "Rendu avec shadow map", en: "Rendering with a shadow map" } },
+      { src: "assets/img/CPURender/refraction.png", alt: { fr: "Objet transparent avec réfraction", en: "Transparent object with refraction" } },
+      { src: "assets/img/CPURender/shadow.png", alt: { fr: "Objet texturé avec réfraction", en: "Textured object with refraction" } }
+    ]
+  },
+  {
+    id: "NeighBarHood",
+    name: "NeighBarHood",
+    type: { fr: "Jeu de gestion sur Unity", en: "Management game on Unity" },
+    status: { fr: "Projet personnel", en: "Personal project" },
+    categories: ["Gameplay"],
+    tech: ["Unity", "C#", "URP", "NavMesh", "ScriptableObjects", "Input System"],
+    short: {
+      fr: "Jeu de simulation et de gestion à la première personne : le joueur tient un petit bar, prend les commandes de clients autonomes et les sert. Projet solo, conçu avec un GDD complet, actuellement en pause.",
+      en: "First-person simulation and management game: the player runs a small bar, takes orders from autonomous customers and serves them. Solo project designed with a full GDD, currently on hold."
+    },
+    long: {
+      fr: [
+        "NeighBarHood est un jeu de simulation et de gestion développé sous Unity (C#) en vue à la première personne. Le joueur incarne le propriétaire d'un petit bar qu'il fait grandir pour en faire le meilleur de la ville.",
+        "J'ai rédigé un GDD complet (vision, boucle de jeu, boissons, clientèle, satisfaction, stock, progression, économie, direction artistique, audio, monétisation, roadmap) et développé un prototype de la boucle de service : clients autonomes, prise de commande, inventaire et service.",
+        "Le projet est en pause : je me concentre sur mes études et sur un autre projet, une bibliothèque de rendu DirectX."
+      ],
+      en: [
+        "NeighBarHood is a simulation and management game built in Unity (C#) in first person. The player owns a small bar and grows it into the best one in town.",
+        "I wrote a full GDD (vision, game loop, drinks, customers, satisfaction, stock, progression, economy, art direction, audio, monetization, roadmap) and built a prototype of the service loop: autonomous customers, order taking, inventory and serving.",
+        "The project is on hold: I am focusing on my studies and on another project, a DirectX rendering library."
+      ]
+    },
+    github: "https://github.com/maelLEMAIR/NeighBarHood",
+    images: [],
+    video: "",
+    videoSlot: false,
+    sections: [
+      { title: { fr: "Contexte et objectifs", en: "Context and goals" },
+        body: { 
+          fr: "Projet personnel pensé comme un vrai produit : cible 16-30 ans et joueurs casual, sortie envisagée sur Steam.\n" + 
+              "Inspirations : Fast Food Simulator, Bronzebeard's Tavern, Supermarket Simulator, Overcooked (gestion du stress) et Cooking Fever.\n " +
+              "L'objectif était de construire une boucle de gameplay complète et de travailler l'IA de PNJ et l'architecture de gameplay.",
+          en: "Personal project designed as a real product: aimed at 16-30 year olds and casual players, with a possible Steam release. \n " + "" +
+              "Inspirations: Fast Food Simulator, Bronzebeard's Tavern, Supermarket Simulator, Overcooked (stress management) and Cooking Fever.\n " + "" +
+              "The goal was to build a complete gameplay loop and to work on NPC AI and gameplay architecture." } },
+      { title: { fr: "Game design : boucle de jeu et systèmes", en: "Game design: game loop and systems" },
+        body: { 
+          fr: "Boucle prévue : \n" +
+              "1. ouvrir le bar \n" +
+              "2. accueillir les clients \n" +
+              "3. prendre la commande \n" +
+              "4. servir, encaisser \n" +
+              "5. évaluation du service \n" +
+              "6. puis achats (équipements, boissons, déco, publicité) \n" +
+              "7. nouvelle journée, avec le nettoyage des tables en parallèle. \n" +
+              "Le GDD détaille aussi 5 profils de clients (étudiant, habitué, cadre, touriste, VIP), une jauge de satisfaction (rapidité, boisson correcte, décoration, attente, propreté), la gestion du stock, la progression par niveaux, une économie à deux monnaies et la personnalisation du bar.",
+          en: "Planned loop: \n" +
+              "1. open the bar \n" +
+              "2. welcome customers \n" +
+              "3. take orders \n" +
+              "4. serve, cash in \n" +
+              "5. service rating \n" +
+              "6. then purchases (equipment, drinks, decor, advertising) \n" +
+              "7. a new day, with table cleaning running in parallel. \n" +
+              "The GDD also details 5 customer profiles (student, regular, executive, tourist, VIP), a satisfaction gauge (speed, correct drink, decor, waiting time, cleanliness), stock management, level-based progression, a two-currency economy and bar customization." } },
+      { title: { fr: "Ce qui est développé (prototype)", en: "What is built (prototype)" },
+        body: { 
+          fr: "Le prototype couvre la boucle de service : les clients se promènent, cherchent une chaise, s'assoient, choisissent leur commande, le joueur la prend, puis sert via un inventaire en roue ; le client part ensuite par la sortie. \n" +
+              "S'y ajoutent un calepin de tickets, un plateau et un système d'interaction par raycast avec outline.",
+          en: "The prototype covers the service loop: customers wander, look for a chair, sit down and pick their order; the player takes it, then serves through a radial inventory, and the customer leaves through the exit. \n" +
+              "It also includes an order notebook, a tray and a raycast interaction system with outlines." } },
+      { title: { fr: "Intelligence artificielle des clients", en: "Customer AI" },
+        body: { 
+          fr: "Chaque client suit une machine à états (balade, marche vers une chaise, assis, attend qu'on prenne sa commande, attend sa commande, évaluation, départ). La navigation repose sur le NavMesh, avec une zone interdite à la balade et un NavMeshObstacle activé une fois assis.\n" +
+              " Un gestionnaire de chaises réserve la place avant le déplacement pour éviter que deux clients visent la même.",
+          en: "Each customer follows a state machine (wandering, walking to a chair, sitting, waiting for the order to be taken, waiting for the order, evaluation, leaving). Navigation relies on the NavMesh, with a no-wander zone and a NavMeshObstacle enabled once seated. \n" +
+              "A chair manager reserves the seat before the customer moves so two customers never target the same one." } },
+      { title: { fr: "Architecture et outils", en: "Architecture and tooling" },
+        body: { 
+          fr: "Les données (items, recettes, commandes) sont des ScriptableObjects, ce qui permet d'ajouter une boisson sans toucher au code. \n" +
+              "Les objets interactifs partagent une interface commune (IInteractable). \n" +
+              "L'inventaire est piloté par événements (OnSlotChanged) et l'interface est découplée de la logique. Entrées gérées avec l'Input System. Outline : asset QuickOutline.",
+          en: "Data (items, recipes, orders) are ScriptableObjects, so a new drink can be added without touching code. \n" +
+              "Interactive objects share a common interface (IInteractable). \n" +
+              "The inventory is event-driven (OnSlotChanged) and the UI is decoupled from the logic. Input handled with the Input System. Outline: QuickOutline asset." } },
+      { title: { fr: "Problèmes techniques rencontrés et solutions apportées", en: "Technical problems and solutions" },
+        body: { 
+          fr: "Deux clients visant la même chaise : réservation immédiate. Client assis qui bloque la navigation : obstacle en carving activé à l'assise.\n" +
+              "Retrait de plusieurs slots d'inventaire : suppression par indices décroissants pour éviter le décalage. \n" +
+              "Aucune chaise libre : nouvel essai toutes les 3 secondes pendant que le client continue de se promener.",
+          en: "Two customers targeting the same chair: immediate reservation. A seated customer blocking navigation: carving obstacle enabled when seated. \n" +
+              "Removing several inventory slots: deletion by descending index to avoid shifting.\n" +
+              "No free chair: retry every 3 seconds while the customer keeps wandering." } },
+      { title: { fr: "Captures d'écran et vidéo", en: "Screenshots and video" }, todo: true },
+      { title: { fr: "Bilan personnel et suite du projet", en: "Personal review and next steps" },
+        body: { 
+          fr: "J'ai appris à structurer un gameplay complet, de la conception (GDD) à la réalisation, et à construire une IA de PNJ avec NavMesh et machines à états.\n" +
+              "Il reste à faire, selon ma roadmap : satisfaction, argent, tutoriel, audio, stock, publicité, personnalisation.\n" +
+              "Le projet est en pause, car je suis en cours et sur un projet de bibliothèque de rendu DirectX.",
+          en: "I learned to structure a complete gameplay from design (GDD) to implementation, and to build NPC AI with NavMesh and state machines.\n" +
+              "Remaining work, per my roadmap: satisfaction, money, tutorial, audio, stock, advertising, customization.\n" +
+              "The project is on hold because I am in school and working on a DirectX rendering library." } }
     ]
   },
   {
     id: "dossier-anomalie-double",
     name: "Dossier Anomalie Double",
     type: { fr: "Prototype de jeu en réseau", en: "Networked game prototype" },
-    status: { fr: "Prototype", en: "Prototype" }, statusKind: "proto",
+    status: { fr: "Prototype", en: "Prototype" }, statusKind: "done",
     categories: ["gameplay", "network"],
     tech: ["C++", "Blender", "Gameplay", { fr: "Développement d'outils", en: "Tool development" }],
     short: {
@@ -127,7 +352,7 @@ const PROJECTS = [
   },
   {
     id: "flappy-bird",
-    name: "Flappy Bird",
+    name: "Flappy Bird", 
     type: { fr: "Jeu vidéo", en: "Video game" },
     status: { fr: "Terminé", en: "Completed" }, statusKind: "done",
     categories: ["other"],
@@ -152,12 +377,12 @@ const SKILLS = [
   { title: { fr: "Architecture moteur", en: "Engine architecture" },
     items: [{ fr: "Architecture moteur", en: "Engine architecture" }, "ECS / Archetypes", { fr: "Structures et organisation des données", en: "Data structures and organization" }] },
   { title: { fr: "Graphismes et mathématiques", en: "Graphics and maths" },
-    items: [{ fr: "Rendu graphique", en: "Graphics rendering" }, "Shaders", { fr: "Mathématiques 3D", en: "3D maths" }] },
+    items: [{ fr: "Rendu graphique", en: "Graphics rendering" }, "Shaders", "Dx123D", { fr: "Mathématiques 3D", en: "3D maths" }] },
   { title: { fr: "Systèmes et simulation", en: "Systems and simulation" },
     items: [{ fr: "Réseau multijoueur", en: "Multiplayer networking" }, { fr: "Réseau UDP", en: "UDP networking" }, { fr: "Physique", en: "Physics" }, { fr: "Optimisation", en: "Optimization" }] },
   { title: { fr: "Outils", en: "Tools" }, items: ["Visual Studio 2022", "JetBrains Rider", "Blender"] }
 ];
-const INTERESTS = ["DirectX", "OpenGL", "Vulkan"];
+const INTERESTS = ["DirectX", "OpenGL", "Vulkan", "Parser"];
 
 /* PARCOURS — les champs « à compléter » sont à remplacer par vos vraies infos. */
 const JOURNEY = [
@@ -171,10 +396,10 @@ const JOURNEY = [
     place: { fr: "Léo PINGOT", en: "Léo PINGOT" },
     text: { fr: "Développement en équipe d'un moteur 3D orienté données (ECS, Archetypes, réseau UDP).", en: "Team development of a data-oriented 3D engine (ECS, Archetypes, UDP networking)." },
     todo: ["period", "place"] },
-  { period: { fr: "Année 2026", en: "Year 2026" },
-    title: { fr: "Projets personnels et académiques", en: "Personal and academic projects" },
-    place: "",
-    text: { fr: "Dossier Anomalie Double, Flappy Bird.", en: "Dossier Anomalie Double, Flappy Bird." },
+  { period: { fr: "Été 2025", en: "Summer 2025" },
+    title: { fr: "Stage en développement moteur", en: "Engine internship" },
+    place: "Gaming Campus",
+    text: { fr: "Réalisation d'un moteur dans une équipe de 30.", en: "Developing an engine as part of a team of 30." },
     todo: ["period"] }
 ];
 
@@ -216,7 +441,8 @@ const I18N = {
     copied: "Adresse copiée dans le presse-papiers.", copyFail: "Copie impossible. Adresse :",
     mailSubject: "Stage / alternance – prise de contact",
     footerNav: "Pied de page", footerRole: "Développeur C++ — Moteur de jeu & Rendu", rights: "Tous droits réservés.",
-    themeLabel: "Thème", modeLight: "Thème clair", modeDark: "Thème sombre"
+    themeLabel: "Thème", modeLight: "Thème clair", modeDark: "Thème sombre",
+    galleryTitle: "Galerie", enlarge: "Agrandir l'image", prev: "Image précédente", next: "Image suivante"
   },
   en: {
     title: "Mawel – C++ Developer, Game Engine & Rendering",
@@ -254,6 +480,7 @@ const I18N = {
     copied: "Address copied to the clipboard.", copyFail: "Copy failed. Address:",
     mailSubject: "Internship / apprenticeship – getting in touch",
     footerNav: "Footer", footerRole: "C++ Developer — Game Engine & Rendering", rights: "All rights reserved.",
-    themeLabel: "Theme", modeLight: "Light theme", modeDark: "Dark theme"
+    themeLabel: "Theme", modeLight: "Light theme", modeDark: "Dark theme",
+    galleryTitle: "Gallery", enlarge: "Enlarge image", prev: "Previous image", next: "Next image"
   }
 };

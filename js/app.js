@@ -3,6 +3,7 @@
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const rich = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
 let lang = 'fr', filter = 'all', openId = null;
 try { const s = localStorage.getItem('lang'); if (s === 'fr' || s === 'en') lang = s; } catch (e) {}
@@ -35,7 +36,7 @@ function visual(p) {
 function videoHTML(p) {
   if (p.video) {
     return /\.(mp4|webm)$/i.test(p.video)
-      ? `<video controls preload="none" playsinline src="${esc(p.video)}"></video>`
+        ? `<video controls preload="metadata" playsinline aria-label="${esc(L(p.name))}"${p.poster ? ` poster="${esc(p.poster)}"` : ''} src="${esc(p.video)}#t=0.1"></video>`
       : `<iframe class="vid" loading="lazy" src="${esc(p.video)}" title="${esc(L(p.name))}" allowfullscreen></iframe>`;
   }
   return p.videoSlot ? slot('videoSlot') : '';
@@ -55,8 +56,8 @@ function card(p, i) {
       <div class="feat-body">
         <div class="row">${status}<span class="chip">${esc(T('featured'))}</span></div>
         <h3>${btn}</h3>
-        <p class="type">${esc(L(p.type))}</p>
-        <p>${esc(L(p.short))}</p>
+        <p class="type">${rich(L(p.type))}</p>
+        <p>${rich(L(p.short))}</p>
         <ul class="tags">${tags}</ul>
         <span class="details">${esc(T('details'))}</span>
       </div></div></li>`;
@@ -96,16 +97,20 @@ function renderContact() {
 function fillDialog(id) {
   const p = PROJECTS.find(x => x.id === id); if (!p) return;
   const gallery = (p.images && p.images.length ? p.images.map(i => tile(i.src, i.alt)).join('') : visual(p)) + videoHTML(p);
-  const secs = (p.sections || []).map(s => `<section class="dsec"><h3>${esc(L(s.title))}</h3>${s.body ? `<p>${esc(L(s.body))}</p>` : ''}${s.todo ? `<p class="todo">${esc(T('todo'))}</p>` : ''}</section>`).join('');
+  const secImgs = (s, si) => (s.images && s.images.length) ? `<div class="sec-imgs">${s.images.map((g, i) =>
+      `<figure><button type="button" class="thumb" data-s="${si}" data-i="${i}" aria-label="${esc(T('enlarge'))}${L(g.alt) ? ' : ' + esc(L(g.alt)) : ''}"><span class="ph">${esc(T('imgMissing'))}</span><img src="${esc(g.src)}" alt="" loading="lazy" decoding="async"></button>${L(g.caption) ? `<figcaption>${esc(L(g.caption))}</figcaption>` : ''}</figure>`).join('')}</div>` : '';
+  const secs = (p.sections || []).map((s, si) => `<section class="dsec"><h3>${esc(L(s.title))}</h3>${s.body ? L(s.body).split(/\n+/).filter(Boolean).map(t => `<p>${rich(t)}</p>`).join('') : ''}${secImgs(s, si)}${s.todo ? `<p class="todo">${esc(T('todo'))}</p>` : ''}</section>`).join('');
   const team = p.team ? `<section class="dsec"><h3>${esc(p.teamLabel ? L(p.teamLabel) : T('teamFallback'))}</h3><ul class="team">${p.team.map(m =>
     `<li>${m.url ? `<a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">${esc(m.name)}</a>` : esc(m.name)}${m.role ? ` <span>(${esc(L(m.role))})</span>` : ''}</li>`).join('')}</ul></section>` : '';
+  const gal = (p.gallery && p.gallery.length) ? `<section class="dsec"><h3>${esc(T('galleryTitle'))}</h3><ul class="thumbs">${p.gallery.map((g, i) =>
+      `<li><button type="button" class="thumb" data-i="${i}" aria-label="${esc(T('enlarge'))}${L(g.alt) ? ' : ' + esc(L(g.alt)) : ''}"><span class="ph">${esc(T('imgMissing'))}</span><img src="${esc(g.src)}" alt="" loading="lazy" decoding="async"></button></li>`).join('')}</ul></section>` : '';
   $('#dlg-body').innerHTML = `
     <div class="row"><span class="chip ${p.statusKind === 'done' ? 'done' : 'proto'}">${esc(L(p.status))}</span><span class="chip">${esc(L(p.type))}</span></div>
     <h2 id="dlg-title">${esc(L(p.name))}</h2>
     <div class="gallery">${gallery}</div>
-    ${(p.long ? L(p.long) : []).map(t => `<p>${esc(t)}</p>`).join('')}
+    ${(p.long ? L(p.long) : []).map(t => `<p>${rich(t)}</p>`).join('')}
     <section class="dsec"><h3>${esc(T('techLabel'))}</h3><ul class="tags">${p.tech.map(t => `<li>${esc(L(t))}</li>`).join('')}</ul></section>
-    ${team}${secs}
+    ${team}${secs}${gal}
     ${p.github ? `<p class="dlinks"><a class="btn primary" href="${esc(p.github)}" target="_blank" rel="noopener noreferrer">${esc(T('repo'))}</a></p>` : ''}`;
 }
 const dlg = $('#dlg');
@@ -178,6 +183,32 @@ $('#grid').addEventListener('click', e => {
   const b = e.target.closest('.open'); if (b) openProject(b.dataset.id);
 });
 $$('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ---------- Galerie : image agrandie ---------- */
+const lb = $('#lightbox'), lbImg = $('#lb-img'), lbCap = $('#lb-cap');
+let lbList = [], lbIdx = 0;
+function showLb(i) {
+  lbIdx = (i + lbList.length) % lbList.length;
+  const g = lbList[lbIdx];
+  lbImg.classList.remove('broken'); lbImg.src = g.src; lbImg.alt = L(g.alt);
+  lbCap.textContent = L(g.alt); lbCap.hidden = !L(g.alt);
+  $$('.lb-nav').forEach(b => { b.hidden = lbList.length < 2; });
+}
+$('#dlg-body').addEventListener('click', e => {
+  const b = e.target.closest('.thumb'); if (!b) return;
+  const p = PROJECTS.find(x => x.id === openId); if (!p) return;
+  const list = b.dataset.s !== undefined ? (p.sections[Number(b.dataset.s)] || {}).images : p.gallery;
+  if (!list || !list.length) return;
+  lbList = list; showLb(Number(b.dataset.i)); lb.showModal();
+});
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+$('.lb-prev').addEventListener('click', () => showLb(lbIdx - 1));
+$('.lb-next').addEventListener('click', () => showLb(lbIdx + 1));
+lb.addEventListener('keydown', e => {
+  if (lbList.length < 2) return;
+  if (e.key === 'ArrowLeft') showLb(lbIdx - 1);
+  if (e.key === 'ArrowRight') showLb(lbIdx + 1);
+});
 
 $$('.themes button').forEach(b => b.addEventListener('click', () => {
   mode = b.dataset.mode;
