@@ -1,0 +1,111 @@
+/* Thèmes course (1/2) : f1, motogp, rallye — même disposition, autres décors */
+[data-theme]{--rail-ink:#0b0d12}
+.themes{display:none!important}
+.lang button[aria-pressed="true"]{color:var(--rail-ink)}
+section,.hero{position:relative}
+section::before{content:"";position:absolute;left:0;right:0;top:0}
+.hero::before,.hero::after{pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.footer{padding-bottom:5.5rem}
+[data-theme] .nav{z-index:50}
+
+/* ============ F1 : fibre de carbone, rouge, vibreurs ============ */
+[data-theme="f1"]{
+  --bg:#1a1a1e;--surface:#15151a;--surface-2:#1f1f26;--line:#26262e;--line-2:#3a3a44;
+  --text:#f4f4f2;--muted:#a0a0ab;--text-soft:#d4d4da;
+  --accent:#f01a10;--accent-ink:#fff;--accent-hover:#ff3b30;
+  --rail-bg:#000;--rail-text:#fff;--rail-muted:#8d8d98;--rail-line:#f01a10;--rail-accent:#ff3b30;--rail-ink:#fff;
+  --backdrop:rgba(0,0,0,.82);--strong:#ff3b30;
+  --font-title:"Barlow Condensed",sans-serif;--font-body:"Barlow",system-ui,sans-serif;--font-mono:"Barlow Semi Condensed",sans-serif;--radius:2px;
+}
+[data-theme="f1"] body{
+  background-color:#1a1a1e;
+  background-image:radial-gradient(900px 520px at 100% 0,rgba(240,26,16,.2),transparent 70%),radial-gradient(700px 400px at 0 100%,rgba(240,26,16,.08),transparent 70%),
+    linear-gradient(27deg,#101012 5px,transparent 5px),linear-gradient(207deg,#101012 5px,transparent 5px),linear-gradient(27deg,#18181c 5px,transparent 5px),linear-gradient(207deg,#18181c 5px,transparent 5px),
+    linear-gradient(90deg,#141417 10px,transparent 10px),linear-gradient(#17171b 25%,#121215 25%,#121215 50%,transparent 50%,transparent 75%,#1d1d21 75%,#1d1d21);
+  background-size:auto,auto,20px 20px,20px 20px,20px 20px,20px 20px,20px 20px,20px 20px;
+  background-position:0 0,0 0,0 5px,10px 0,0 10px,10px 5px,0 0,0 0;
+  background-attachment:fixed,fixed,scroll,scroll,scroll,scroll,scroll,scroll}
+[data-theme="f1"] h1,[data-theme="f1"] h2,[data-theme="f1"] h3,[data-theme="f1"] .brand,[data-theme="f1"] #nav-links b{font-weight:800;font-style:italic;text-transform:uppercase;line-height:.95}
+[data-theme="f1"] h1{font-size:clamp(2.8rem,6.4vw,5.2rem);max-width:14ch}
+[data-theme="f1"] .brand{font-size:2.3rem}
+[data-theme="f1"] .nav{border-right:4px solid #f01a10}
+[data-theme="f1"] .big{font:600 1.55rem/1.25 var(--font-title);font-style:italic}
+[data-theme="f1"] section::before{height:8px;background:repeating-linear-gradient(90deg,#f01a10 0 28px,#fff 28px 56px)}
+[data-theme="f1"] .hero{overflow:hidden;background:linear-gradient(112deg,transparent 62%,rgba(240,26,16,.18) 62% 64%,transparent 64% 66%,rgba(240,26,16,.09) 66% 67%,transparent 67%)}
+[data-theme="f1"] .hero::before{content:"";position:absolute;right:-40px;top:0;bottom:0;width:38%;opacity:.5;clip-path:polygon(40% 0,100% 0,100% 100%,0 100%);
+  background:repeating-linear-gradient(112deg,rgba(255,255,255,.07) 0 4px,transparent 4px 14px)}
+[data-theme="f1"] .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(transparent,rgba(240,26,16,.12))}
+[data-theme="f1"] .prow .no{background:#fff;color:#000;font-weight:800;font-style:italic;padding:.15rem .5rem;width:max-content;height:max-content;transform:skewX(-12deg)}
+[data-theme="f1"] .btn{font-style:italic;text-transform:uppercase;letter-spacing:.02em;transform:skewX(-8deg)}
+[data-theme="f1"] .feat-card{border-left:6px solid #f01a10}
+[data-theme="f1"] .prow:hover,[data-theme="f1"] .prow:focus-within{background:rgba(21,21,26,.92)}
+
+/* ============ MotoGP : cockpit bleu nuit, orange, compte-tours ============ */
+[data-theme="motogp"]{
+  --bg:#070d1f;--surface:#0f1a36;--surface-2:#162547;--line:#1f3160;--line-2:#34508f;
+  --text:#eef4ff;--muted:#90a5cc;--text-soft:#c9d8f5;
+  --accent:#ff6a00;--accent-ink:#0a0a0a;--accent-hover:#ff8a2b;
+  --rail-bg:#040813;--rail-text:#eef4ff;--rail-muted:#7f94bd;--rail-line:#1f3160;--rail-accent:#00d4ff;--rail-ink:#001018;
+  --backdrop:rgba(2,5,14,.85);--strong:#00d4ff;
+  --font-title:"Russo One",sans-serif;--font-body:"Rajdhani",system-ui,sans-serif;--font-mono:"Rajdhani",sans-serif;--radius:0;
+}
+[data-theme="motogp"] body{font-size:1.2rem;font-weight:500;
+  background-color:#070d1f;
+  background-image:radial-gradient(900px 500px at 8% 0,rgba(0,212,255,.16),transparent 70%),radial-gradient(800px 500px at 100% 100%,rgba(255,106,0,.14),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,106,0,.035) 0 18px,transparent 18px 36px),
+    linear-gradient(rgba(0,212,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.05) 1px,transparent 1px);
+  background-size:auto,auto,auto,44px 44px,44px 44px;background-attachment:fixed,fixed,scroll,scroll,scroll}
+[data-theme="motogp"] h1,[data-theme="motogp"] h2,[data-theme="motogp"] h3,[data-theme="motogp"] .brand{font-style:italic;text-transform:uppercase;letter-spacing:0}
+[data-theme="motogp"] h1{font-size:clamp(2.5rem,5.6vw,4.6rem);line-height:1}
+[data-theme="motogp"] h2{font-size:clamp(2rem,3.6vw,2.9rem)}
+[data-theme="motogp"] h3{font-size:1.35rem}
+[data-theme="motogp"] .brand{font-size:1.9rem}
+[data-theme="motogp"] #nav-links a b{font-size:1.2rem;font-style:italic;text-transform:uppercase}
+[data-theme="motogp"] .big{font:400 1.45rem/1.3 var(--font-title)}
+[data-theme="motogp"] .nav{border-right:2px solid #00d4ff;box-shadow:6px 0 24px rgba(0,212,255,.15)}
+[data-theme="motogp"] .btn{border:0;background:var(--surface-2);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);padding:.7rem 1.6rem;font-style:italic;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+[data-theme="motogp"] .btn.small{padding:.4rem 1.2rem}
+[data-theme="motogp"] .btn.primary{background:var(--accent)}
+[data-theme="motogp"] .btn:hover{background:var(--accent-hover);color:var(--accent-ink)}
+[data-theme="motogp"] .nav .btn,[data-theme="motogp"] .close{background:#10204a;border:0}
+[data-theme="motogp"] section::before{height:3px;background:linear-gradient(90deg,#00d4ff,transparent 70%)}
+[data-theme="motogp"] .hero{overflow:hidden;background:repeating-linear-gradient(100deg,transparent 0 46px,rgba(0,212,255,.05) 46px 48px)}
+[data-theme="motogp"] .hero::before{content:"";position:absolute;right:-8%;top:8%;width:420px;height:420px;border-radius:50%;opacity:.5;
+  background:repeating-conic-gradient(from -120deg,rgba(0,212,255,.55) 0 2deg,transparent 2deg 12deg);-webkit-mask:radial-gradient(circle,transparent 62%,#000 63% 72%,transparent 73%);mask:radial-gradient(circle,transparent 62%,#000 63% 72%,transparent 73%)}
+[data-theme="motogp"] .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;
+  background:linear-gradient(90deg,#00d4ff 0,#ffd000 62%,#ff2a00 88%);
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 16px,transparent 16px 22px);mask:repeating-linear-gradient(90deg,#000 0 16px,transparent 16px 22px);
+  animation:rev 1.8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rev{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+[data-theme="motogp"] .tags li,[data-theme="motogp"] .chip{border-color:var(--line-2);font-weight:700}
+[data-theme="motogp"] .feat-card{border-top:3px solid #ff6a00}
+
+/* ============ Rallye : carnet de route, terre, boue, courbes de niveau ============ */
+[data-theme="rallye"]{
+  --bg:#e8dcc0;--surface:#f3ead4;--surface-2:#d9c9a4;--line:#cdbb92;--line-2:#8c7648;
+  --text:#241a0d;--muted:#665235;--text-soft:#3d2e18;
+  --accent:#c2410c;--accent-ink:#fff;--accent-hover:#dc5314;
+  --rail-bg:#2b2114;--rail-text:#f3ead4;--rail-muted:#bda57a;--rail-line:#2b2114;--rail-accent:#ff9d4a;--rail-ink:#241a0d;
+  --backdrop:rgba(25,17,8,.72);--strong:#c2410c;
+  --font-title:"Barlow Condensed",sans-serif;--font-body:"Barlow",system-ui,sans-serif;--font-mono:"Barlow Semi Condensed",sans-serif;--radius:3px;
+}
+[data-theme="rallye"] body{
+  background-color:#e8dcc0;
+  background-image:radial-gradient(circle at 12% 22%,rgba(80,52,24,.2) 0 22px,transparent 23px),radial-gradient(circle at 18% 26%,rgba(80,52,24,.16) 0 9px,transparent 10px),
+    radial-gradient(circle at 80% 70%,rgba(80,52,24,.18) 0 34px,transparent 35px),radial-gradient(circle at 74% 76%,rgba(80,52,24,.14) 0 12px,transparent 13px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' fill='none' stroke='%238c7648' stroke-opacity='.3' stroke-width='1.2'%3E%3Cpath d='M0 50 C100 10 160 110 250 70 S350 90 400 50'/%3E%3Cpath d='M0 110 C100 70 160 170 250 130 S350 150 400 110'/%3E%3Cpath d='M0 170 C100 130 160 230 250 190 S350 210 400 170'/%3E%3Cpath d='M0 230 C100 190 160 290 250 250 S350 270 400 230'/%3E%3C/svg%3E");
+  background-size:900px 700px,900px 700px,1100px 800px,1100px 800px,400px 300px}
+[data-theme="rallye"] h1,[data-theme="rallye"] h2,[data-theme="rallye"] h3,[data-theme="rallye"] .brand,[data-theme="rallye"] #nav-links b{font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1}
+[data-theme="rallye"] h1{font-size:clamp(2.8rem,6vw,5rem)}
+[data-theme="rallye"] .brand{font-size:2.3rem}
+[data-theme="rallye"] .big{font:600 1.6rem/1.25 var(--font-title)}
+[data-theme="rallye"] .nav{border-right:6px double #ff9d4a}
+[data-theme="rallye"] section::before{height:6px;background:repeating-linear-gradient(90deg,#241a0d 0 18px,transparent 18px 28px)}
+[data-theme="rallye"] .hero{overflow:hidden;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 300' fill='none' stroke='%23241a0d' stroke-opacity='.22' stroke-width='8' stroke-dasharray='2 5'%3E%3Cpath d='M0 270 C150 250 220 130 360 120 S520 70 600 30'/%3E%3Cpath d='M0 290 C150 270 232 150 372 140 S532 90 612 50'/%3E%3C/svg%3E") right bottom/min(660px,75%) no-repeat}
+[data-theme="rallye"] .hero::before,[data-theme="rallye"] .hero::after{display:none}
+[data-theme="rallye"] .prow .no{display:grid;place-items:center;width:2.1rem;height:2.1rem;border:2px solid var(--text);border-radius:50%;padding:0;color:var(--text);font-weight:700;margin-top:.5rem}
+[data-theme="rallye"] .btn{border:2px solid var(--text);font-weight:700;text-transform:uppercase}
+[data-theme="rallye"] .btn.primary{box-shadow:4px 4px 0 var(--text)}
+[data-theme="rallye"] .nav .btn{border-color:#6b5a3a}
+

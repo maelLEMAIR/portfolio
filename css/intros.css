@@ -1,0 +1,130 @@
+/* Intros d'ouverture : une par thème (voir js/themefx.js) */
+.intro{position:fixed;inset:0;z-index:300;display:grid;place-items:center;overflow:hidden;background:var(--ib,#000);color:#fff;font-family:var(--font-title);transition:opacity .6s ease}
+.intro.out{opacity:0;pointer-events:none}
+.intro>*{grid-area:1/1}
+.intro .fill{position:absolute;inset:0}
+.intro .skip-i{position:absolute;right:1rem;bottom:1rem;z-index:5;background:rgba(0,0,0,.55);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:.45rem .9rem;font:600 .85rem system-ui,sans-serif;cursor:pointer}
+.intro .skip-i:hover{background:rgba(0,0,0,.8)}
+.intro .skip-i:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.intro .pop{opacity:0}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes cd{0%{opacity:0;transform:scale(2.4)}15%{opacity:1;transform:scale(1)}85%{opacity:1}100%{opacity:0;transform:scale(.8)}}
+
+/* ---- F1 : arrivée sur la grille, feux, BURN au vert, puis départ + lignes de vitesse ----
+   Chronologie (s) : 0-0.9 arrivée | 0.5-2.3 feux rouges | 2.75 feux verts + burn
+                     4.15 départ + lignes de vitesse | 4.6 nom | 6.5 fin de l'intro */
+.i-f1{--ib:#04060c;--w:min(540px,84vw)}
+.i-f1 .speed,.i-f1 .ground{position:absolute;left:0;right:0;opacity:0}
+.i-f1 .speed{top:0;bottom:0;animation:spd 6s forwards,spdRun .28s linear infinite;
+  background:linear-gradient(90deg,transparent,#fff,transparent) 0 18%/300px 2px repeat-x,linear-gradient(90deg,transparent,#fff8,transparent) 0 30%/220px 2px repeat-x,
+  linear-gradient(90deg,transparent,#f01a10,transparent) 0 42%/380px 3px repeat-x,linear-gradient(90deg,transparent,#fff,transparent) 0 58%/260px 2px repeat-x,
+  linear-gradient(90deg,transparent,#f01a10,transparent) 0 70%/340px 3px repeat-x,linear-gradient(90deg,transparent,#fff8,transparent) 0 82%/240px 2px repeat-x}
+/* lignes de vitesse : invisibles jusqu'au départ (4.15 s = 69 %), puis montée en puissance */
+@keyframes spd{0%,69%{opacity:0}76%,92%{opacity:1}100%{opacity:0}}
+@keyframes spdRun{to{background-position-x:-1200px,-880px,-1140px,-780px,-1360px,-960px}}
+
+.i-f1 .lights{position:absolute;top:12vh;left:50%;transform:translateX(-50%);display:flex;gap:clamp(.5rem,2.4vw,1.5rem);z-index:4}
+.i-f1 .pod{display:grid;gap:.6rem;padding:.8rem;background:#0b0e16;border:2px solid #1c2538;border-radius:14px}
+.i-f1 .pod i{width:clamp(2.2rem,6vw,4.2rem);aspect-ratio:1;border-radius:50%;background:#1a0505;box-shadow:inset 0 0 0 3px #000;
+  animation:lampOn .01s forwards var(--d),lampGreen .01s forwards 2.75s,lampOff .01s forwards 4.15s}
+@keyframes lampOn{to{background:#ff1a1a;box-shadow:0 0 30px 8px rgba(255,26,26,.7),inset 0 0 12px #ff9a9a}}
+@keyframes lampGreen{to{background:#2bff6a;box-shadow:0 0 30px 8px rgba(43,255,106,.75),inset 0 0 12px #c4ffd6}}
+@keyframes lampOff{to{background:#1a0505;box-shadow:inset 0 0 0 3px #000}}
+
+/* voiture : arrive, attend sur la grille, reste clouée pendant le burn, puis part */
+.i-f1 .carwrap{width:var(--w);aspect-ratio:400/110;opacity:0;animation:wmove 6s forwards;z-index:2}
+.i-f1 .carwrap svg{width:100%;height:100%;display:block;overflow:visible;transform-origin:22% 90%;
+  animation:idle .14s linear infinite,burn .05s linear 2.75s 28,pitch 1.1s ease-out 4.15s}
+@keyframes idle{50%{transform:translateY(.6px)}}
+@keyframes burn{0%{transform:translateY(0) rotate(0)}25%{transform:translateY(2.4px) rotate(.5deg)}50%{transform:translateY(.4px) rotate(-.3deg)}75%{transform:translateY(2px) rotate(.4deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes pitch{0%{transform:rotate(0)}25%{transform:rotate(-2.2deg)}100%{transform:rotate(0)}}
+@keyframes wmove{
+  0%{transform:translateX(-30vw) scale(.92);opacity:0;animation-timing-function:cubic-bezier(.15,.8,.25,1)}
+  6%{opacity:1}
+  15%{transform:translateX(0) scale(1);opacity:1}
+  69%{transform:translateX(0) scale(1);opacity:1;animation-timing-function:cubic-bezier(.55,.05,.9,.45)}
+  100%{transform:translateX(135vw) scale(1);opacity:1}}
+
+/* roues : tournent à l'arrivée (freinage), à l'arrêt sur la grille, très vite pendant le burn et le départ */
+.i-f1 .spin{transform-origin:0 0;animation:rollin .9s cubic-bezier(.1,.6,.3,1) forwards,rot .08s linear 2.75s infinite,blur .01s 2.75s forwards}
+@keyframes rollin{to{transform:rotate(1080deg)}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes blur{to{filter:blur(1.6px)}}
+
+/* fumée du burn : reste sur place pendant que la voiture s'en va */
+.i-f1 .smokewrap{position:relative;width:var(--w);aspect-ratio:400/110;z-index:3;pointer-events:none}
+.i-f1 .smokewrap i{position:absolute;left:12%;top:62%;width:17%;aspect-ratio:1;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(235,235,240,.8),rgba(190,190,200,.35) 55%,transparent 72%);filter:blur(5px);
+  animation:puff 1.2s var(--d) ease-out forwards}
+@keyframes puff{0%{opacity:0;transform:translate(0,0) scale(.35)}15%{opacity:.85}100%{opacity:0;transform:translate(var(--dx),-70%) scale(2.8)}}
+
+.i-f1 .iname{font:italic 800 clamp(3rem,12vw,9rem)/1 var(--font-title);text-transform:uppercase;white-space:nowrap;clip-path:inset(0 100% 0 0);animation:nameIn .9s 4.6s cubic-bezier(.2,.7,.2,1) forwards;text-shadow:5px 5px 0 #f01a10}
+@keyframes nameIn{to{clip-path:inset(0 0 0 0)}}
+
+/* ---- F1 Vintage : feux de départ ---- */
+.i-f1vintage{--ib:#04060c}
+.i-f1vintage .lights{display:flex;gap:clamp(.5rem,2.4vw,1.5rem)}
+.i-f1vintage .pod{display:grid;gap:.6rem;padding:.8rem;background:#0b0e16;border:2px solid #1c2538;border-radius:14px}
+.i-f1vintage .pod i{width:clamp(2.2rem,6vw,4.2rem);aspect-ratio:1;border-radius:50%;background:#1a0505;box-shadow:inset 0 0 0 3px #000;animation:lampOn .01s forwards var(--d),lampOff .01s forwards 3s,lampGreen .01s forwards 3.3s}
+@keyframes lampOn{to{background:#ff1a1a;box-shadow:0 0 30px 8px rgba(255,26,26,.7),inset 0 0 12px #ff9a9a}}
+@keyframes lampGreen{to{background:#2bff6a;box-shadow:0 0 30px 8px rgba(43,255,106,.75),inset 0 0 12px #c4ffd6}}
+.i-f1vintage .go{align-self:end;margin-bottom:22vh;font:700 clamp(1.6rem,4.4vw,3rem)/1 var(--font-title);letter-spacing:.14em;text-transform:uppercase;color:#2bff6a;text-shadow:0 0 24px #2bff6a;opacity:0;animation:fadeIn .01s forwards 3.3s}
+
+/* ---- Rallye : carnet de route et compteur kilométrique ---- */
+.i-rallye{--ib:#e8dcc0;color:#241a0d}
+.i-rallye .fill{background:radial-gradient(circle at 12% 20%,rgba(70,45,20,.3) 0 40px,transparent 41px),radial-gradient(circle at 85% 75%,rgba(70,45,20,.28) 0 70px,transparent 71px),radial-gradient(circle at 70% 15%,rgba(70,45,20,.2) 0 25px,transparent 26px)}
+.i-rallye .book{width:min(460px,88vw);background:#f3ead4;border:2px solid #241a0d;box-shadow:8px 8px 0 #241a0d;padding:1rem 1.3rem;font:600 1.3rem/1.5 var(--font-title);animation:bookOut .6s 3.3s ease-in forwards}
+.i-rallye .book p{margin:0;font:700 1.9rem/1.1 var(--font-title);text-transform:uppercase}
+.i-rallye .trip{display:block;text-align:right;font:700 2.8rem/1 var(--font-title);color:#c2410c;margin:.3rem 0 .4rem}
+.i-rallye ul{margin:0;padding:0;list-style:none;border-top:2px dashed #241a0d}
+.i-rallye li{padding:.25rem 0;border-bottom:1px solid #cdbb92;opacity:0;animation:liIn .3s forwards calc(var(--i)*.5s + .4s)}
+@keyframes liIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@keyframes bookOut{to{transform:translateY(-120vh) rotate(-3deg)}}
+
+/* ---- MotoGP : compte-tours qui monte à la zone rouge ---- */
+.i-motogp{--ib:#040813}
+.i-motogp .gauge{width:min(540px,92vw);text-align:center}
+.i-motogp svg{width:100%;display:block}
+.i-motogp .arc{opacity:0;animation:fadeIn .4s .1s forwards}
+.i-motogp .needle{transform-origin:150px 165px;animation:needle 3.4s cubic-bezier(.3,.1,.2,1) forwards}
+@keyframes needle{0%{transform:rotate(-90deg)}28%{transform:rotate(88deg)}36%{transform:rotate(76deg)}44%{transform:rotate(88deg)}72%{transform:rotate(88deg)}100%{transform:rotate(-70deg)}}
+.i-motogp .kmh{margin:.2rem 0 0;font:italic 400 clamp(2.4rem,8vw,4rem)/1 var(--font-title);color:#ff6a00}
+.i-motogp .kmh small{font-size:.4em;color:#00d4ff}
+.i-motogp .who{margin:.6rem 0 0;font:italic 400 clamp(1.4rem,4vw,2.2rem)/1 var(--font-title);text-transform:uppercase;letter-spacing:.04em;opacity:0;animation:fadeIn .6s 2s forwards}
+
+/* ---- MotoGP Le Mans : le circuit se dessine, un point fait le tour ---- */
+.i-motogplemans{--ib:#f3f4f6;color:#0e1116}
+.i-motogplemans .map{width:min(520px,90vw);text-align:center}
+.i-motogplemans svg{width:100%;display:block}
+.i-motogplemans .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s .4s ease-in-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.i-motogplemans .lap{margin:.2rem 0 0;font:italic 700 clamp(2.4rem,8vw,4.2rem)/1 var(--font-title);font-variant-numeric:tabular-nums}
+.i-motogplemans .who{margin:.5rem 0 0;font:italic 700 clamp(1.2rem,3.6vw,1.8rem)/1 var(--font-title);text-transform:uppercase;color:#d90429;opacity:0;animation:fadeIn .6s 2.6s forwards}
+.i-motogplemans .tri{position:absolute;left:0;right:0;bottom:0;height:10px;background:linear-gradient(90deg,#d90429 0 60%,#0e1116 60%);transform-origin:left;animation:grow 3s linear forwards}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ---- Arcade rétro : texte tapé, route et voiture ---- */
+.i-retro{--ib:#000;font-family:"VT323",monospace}
+.i-retro .term{font-size:clamp(1.8rem,5vw,3rem);line-height:1.3;align-self:start;margin-top:14vh;justify-self:start;margin-left:max(1.5rem,12vw)}
+.i-retro .ty{display:block;width:0;overflow:hidden;white-space:nowrap;border-right:.5ch solid #fff;animation:typing calc(var(--n)*.06s) steps(var(--n)) var(--d) forwards,caret .5s steps(2) infinite}
+.i-retro .ty.y{color:#ffe14d}
+@keyframes typing{to{width:calc(var(--n)*1ch)}}
+@keyframes caret{50%{border-color:transparent}}
+.i-retro .rroad{position:absolute;left:50%;bottom:0;width:70vw;height:46%;transform:translateX(-50%);clip-path:polygon(46.5% 0,53.5% 0,100% 100%,0 100%);background:#3a3a3a;opacity:0;animation:fadeIn .1s 2s forwards}
+.i-retro .rcar{align-self:end;justify-self:center;width:90px;margin-bottom:6vh;opacity:0;transform-origin:50% 100%;animation:rc 1.3s 2.2s cubic-bezier(.5,0,.8,.5) forwards}
+.i-retro .rcar svg{display:block;width:100%}
+@keyframes rc{0%{opacity:1;transform:translateY(-14vh) scale(.1)}100%{opacity:1;transform:scale(1.7)}}
+.i-retro .flash{position:absolute;inset:0;background:#fff;opacity:0;animation:fl .15s 3.55s}
+@keyframes fl{50%{opacity:1}}
+
+/* ---- F1 : compteur de vitesse du rail (voir js/themefx.js) ---- */
+.speedo{margin:-.6rem 0 0;color:var(--rail-text);max-width:230px}
+.speedo svg{display:block;width:100%;height:auto}
+.speedo .sp-track{stroke:rgba(255,255,255,.12)}
+.speedo .sp-fill{stroke:#f01a10}
+.speedo .sp-lab{font:500 10px var(--font-mono);fill:var(--rail-muted)}
+.speedo .sp-val{margin:.1rem 0 0;display:flex;align-items:baseline;justify-content:center;gap:.45rem;font-variant-numeric:tabular-nums}
+.speedo .sp-val b{font:italic 800 2.1rem/1 var(--font-title);min-width:5.2ch;text-align:right}
+.speedo .sp-val small{font:500 .75rem var(--font-mono);color:var(--rail-muted);text-transform:uppercase;letter-spacing:.08em}
+@media(max-height:830px){.speedo svg{display:none}.speedo{margin-top:-1rem}}
+@media(max-width:1000px){.speedo{display:none}}

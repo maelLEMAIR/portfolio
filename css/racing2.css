@@ -1,0 +1,107 @@
+/* Thèmes course (2/2) : f1vintage, motogplemans, retro */
+
+/* ============ F1 Vintage : Le Mans 66, pellicule grainée, doubles bandes ============ */
+[data-theme="f1vintage"]{
+  --bg:#0f1c33;--surface:#16274a;--surface-2:#1e3560;--line:#223a66;--line-2:#3c5a92;
+  --text:#f1e9d2;--muted:#aab5ca;--text-soft:#dcd5bf;
+  --accent:#ff5a47;--accent-ink:#0f1c33;--accent-hover:#ff7767;
+  --rail-bg:#0a1427;--rail-text:#f1e9d2;--rail-muted:#98a6c2;--rail-line:#0a1427;--rail-accent:#ff5a47;--rail-ink:#0a1427;
+  --backdrop:rgba(5,10,22,.84);--strong:#f4c76a;
+  --font-title:"Barlow Condensed",sans-serif;--font-body:"Barlow",system-ui,sans-serif;--font-mono:"Barlow Semi Condensed",sans-serif;--radius:0;
+}
+[data-theme="f1vintage"] body{
+  background-color:#0f1c33;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .8 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 35%,transparent 50%,rgba(0,0,0,.5)),radial-gradient(rgba(241,233,210,.07) 1px,transparent 1.6px),
+    radial-gradient(600px 400px at 0 0,rgba(255,150,50,.12),transparent),linear-gradient(#13264a,#0a1430);
+  background-size:220px 220px,auto,7px 7px,auto,auto;background-attachment:scroll,fixed,scroll,fixed,fixed}
+[data-theme="f1vintage"] h1,[data-theme="f1vintage"] h2,[data-theme="f1vintage"] h3,[data-theme="f1vintage"] .brand,[data-theme="f1vintage"] #nav-links b{font-weight:700;text-transform:uppercase;letter-spacing:.05em;line-height:1}
+[data-theme="f1vintage"] h1{font-size:clamp(2.6rem,5.8vw,4.6rem);max-width:15ch;text-shadow:3px 3px 0 rgba(0,0,0,.35)}
+[data-theme="f1vintage"] .brand{font-size:2rem}
+[data-theme="f1vintage"] #nav-links a b{font-size:1.35rem}
+[data-theme="f1vintage"] .big{font:500 1.5rem/1.35 var(--font-title);letter-spacing:.02em}
+[data-theme="f1vintage"] .nav{box-shadow:inset -5px 0 0 #ff5a47,inset -9px 0 0 #0a1427,inset -14px 0 0 #f1e9d2}
+[data-theme="f1vintage"] section::before{height:9px;background:linear-gradient(#f1e9d2 0 3px,transparent 3px 6px,#ff5a47 6px 9px)}
+[data-theme="f1vintage"] .hero{overflow:hidden;background:radial-gradient(520px 320px at 0 100%,rgba(255,160,60,.16),transparent),radial-gradient(520px 320px at 100% 0,rgba(255,90,71,.14),transparent)}
+[data-theme="f1vintage"] .hero::before{content:"66";position:absolute;right:2.5rem;top:2.5rem;width:190px;height:190px;border-radius:50%;background:#f1e9d2;border:8px solid #ff5a47;display:grid;place-items:center;font:800 6rem/1 var(--font-title);color:#0f1c33;transform:rotate(-6deg);box-shadow:6px 6px 0 rgba(0,0,0,.4)}
+[data-theme="f1vintage"] .hero::after{display:none}
+[data-theme="f1vintage"] .photo img,[data-theme="f1vintage"] .media img{filter:sepia(.45) contrast(1.05)}
+[data-theme="f1vintage"] .btn{border:2px solid var(--text);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+[data-theme="f1vintage"] .btn.primary{border-color:var(--accent)}
+[data-theme="f1vintage"] .nav .btn{border-color:#3c5a92}
+[data-theme="f1vintage"] .prow .no{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:#f1e9d2;color:#0f1c33;font-weight:800;padding:0;margin-top:.5rem}
+[data-theme="f1vintage"] .feat-card{border:2px solid #f1e9d2;box-shadow:6px 6px 0 #ff5a47}
+
+/* ============ MotoGP Le Mans : papier millimétré, rouge et bleu, télémétrie ============ */
+[data-theme="motogplemans"]{
+  --bg:#f3f4f6;--surface:#fff;--surface-2:#e4e7ec;--line:#d5d9e0;--line-2:#a9b0bc;
+  --text:#0e1116;--muted:#586070;--text-soft:#2b313b;
+  --accent:#d90429;--accent-ink:#fff;--accent-hover:#f0183c;
+  --rail-bg:#0e1116;--rail-text:#f3f4f6;--rail-muted:#8b94a3;--rail-line:#0e1116;--rail-accent:#ff5470;--rail-ink:#0e1116;
+  --backdrop:rgba(8,10,14,.65);--strong:#d90429;
+  --font-title:"Saira Condensed",sans-serif;--font-body:"Saira",system-ui,sans-serif;--font-mono:"Saira",sans-serif;--radius:2px;
+}
+[data-theme="motogplemans"] body{
+  background-color:#f3f4f6;
+  background-image:linear-gradient(135deg,rgba(11,61,145,.1) 0,transparent 18%),linear-gradient(315deg,rgba(217,4,41,.1) 0,transparent 18%),
+    repeating-linear-gradient(120deg,rgba(14,17,22,.03) 0 10px,transparent 10px 20px),
+    linear-gradient(rgba(14,17,22,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(14,17,22,.06) 1px,transparent 1px),
+    linear-gradient(rgba(14,17,22,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(14,17,22,.035) 1px,transparent 1px);
+  background-size:auto,auto,auto,120px 120px,120px 120px,24px 24px,24px 24px;background-attachment:fixed,fixed,scroll,scroll,scroll,scroll,scroll}
+[data-theme="motogplemans"] h1,[data-theme="motogplemans"] h2,[data-theme="motogplemans"] h3,[data-theme="motogplemans"] .brand,[data-theme="motogplemans"] #nav-links b{font-weight:700;font-style:italic;text-transform:uppercase;line-height:.98}
+[data-theme="motogplemans"] h1{font-size:clamp(3rem,6.6vw,5.4rem);max-width:13ch}
+[data-theme="motogplemans"] .brand{font-size:2.4rem}
+[data-theme="motogplemans"] .big{font:600 1.5rem/1.25 var(--font-title);font-style:italic}
+[data-theme="motogplemans"] .nav{border-right:6px solid #d90429}
+[data-theme="motogplemans"] section::before{height:6px;background:linear-gradient(90deg,#d90429 0 40%,#0e1116 40%)}
+[data-theme="motogplemans"] .hero{overflow:hidden;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200' fill='none' stroke-width='3'%3E%3Cpath d='M0 150 L60 40 L120 40 L170 150 L230 150 L290 60 L350 60 L400 160 L470 160 L520 80 L600 80 L650 150 L720 150 L800 70' stroke='%23d90429' stroke-opacity='.45'/%3E%3Cpath d='M0 170 L80 170 L130 110 L200 110 L260 180 L340 180 L400 100 L470 100 L540 170 L650 170 L700 120 L800 120' stroke='%230b3d91' stroke-opacity='.5'/%3E%3C/svg%3E") right bottom/min(760px,85%) no-repeat}
+[data-theme="motogplemans"] .hero::before{content:"";position:absolute;left:-30px;top:24px;width:260px;height:260px;opacity:.5;
+  background:repeating-linear-gradient(60deg,rgba(14,17,22,.08) 0 6px,transparent 6px 18px);clip-path:polygon(0 0,100% 0,60% 100%,0 100%)}
+[data-theme="motogplemans"] .hero::after{display:none}
+[data-theme="motogplemans"] .btn{font-style:italic;text-transform:uppercase;font-weight:700;transform:skewX(-8deg)}
+[data-theme="motogplemans"] .prow .no{color:var(--accent);font-weight:700}
+
+/* ============ Arcade rétro : Pole Position, route avec voitures ============ */
+[data-theme="retro"]{
+  --bg:#000;--surface:#06061f;--surface-2:#101040;--line:#1a1a66;--line-2:#2f2fc0;
+  --text:#fff;--muted:#9fb0ff;--text-soft:#e6e6ff;
+  --accent:#ffe14d;--accent-ink:#000;--accent-hover:#fff07a;
+  --rail-bg:#000;--rail-text:#fff;--rail-muted:#8aa0ff;--rail-line:#2f2fc0;--rail-accent:#55ffff;--rail-ink:#000;
+  --backdrop:rgba(0,0,0,.88);--strong:#55ffff;
+  --font-title:"Silkscreen",monospace;--font-body:"VT323",monospace;--font-mono:"VT323",monospace;--radius:0;
+}
+[data-theme="retro"] body{font-size:1.5rem;line-height:1.35;
+  background-color:#000;
+  background-image:radial-gradient(1px 1px at 10% 20%,#fff,transparent),radial-gradient(1px 1px at 30% 60%,#55ffff,transparent),radial-gradient(1px 1px at 55% 35%,#fff,transparent),radial-gradient(1px 1px at 75% 80%,#ff55ff,transparent),radial-gradient(1px 1px at 90% 15%,#fff,transparent),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px);
+  background-size:300px 300px,340px 340px,280px 280px,360px 360px,320px 320px,auto}
+[data-theme="retro"] h1,[data-theme="retro"] h2,[data-theme="retro"] h3,[data-theme="retro"] .brand{font-weight:700;letter-spacing:0;line-height:1.1}
+[data-theme="retro"] h1{font-size:clamp(2.2rem,5vw,3.8rem);max-width:16ch;text-shadow:4px 4px 0 #2f2fc0}
+[data-theme="retro"] h2{font-size:clamp(1.7rem,3.2vw,2.4rem);text-shadow:3px 3px 0 #2f2fc0}
+[data-theme="retro"] h3{font-size:1.3rem}
+[data-theme="retro"] .brand{font-size:1.5rem}
+[data-theme="retro"] #nav-links a b{font:700 1.05rem var(--font-title)}
+[data-theme="retro"] .big{font:400 1.9rem/1.2 var(--font-body)}
+[data-theme="retro"] .mail-line a{font-size:clamp(1.4rem,4vw,2.4rem)}
+[data-theme="retro"] .tags li,[data-theme="retro"] .chip,[data-theme="retro"] .details,[data-theme="retro"] .when,[data-theme="retro"] .prow .no{font-size:1.15rem}
+[data-theme="retro"] .btn{border:3px solid var(--line-2);box-shadow:4px 4px 0 #2f2fc0;font:700 .85rem var(--font-title);padding:.7rem 1rem}
+[data-theme="retro"] .btn.primary{border-color:var(--accent)}
+[data-theme="retro"] .btn.small{font-size:.7rem;padding:.45rem .7rem}
+[data-theme="retro"] .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #2f2fc0}
+[data-theme="retro"] section::before{height:10px;background:repeating-linear-gradient(90deg,#e8261c 0 20px,#fff 20px 40px)}
+[data-theme="retro"] .hero{overflow:hidden;padding-bottom:calc(clamp(3.5rem,8vw,6rem) + 250px);background:linear-gradient(#000 0,#05052e 55%,#0a0a6a 100%)}
+[data-theme="retro"] .hero::before,[data-theme="retro"] .hero::after{display:none}
+/* Route, montagnes et voitures (injectées par themefx.js) */
+.road{position:absolute;left:0;right:0;bottom:0;height:250px;--w:900px;overflow:hidden;background:linear-gradient(#0c4a10,#0f6a16);z-index:0}
+.road::before{content:"";position:absolute;left:0;right:0;top:0;height:250px;clip-path:polygon(46.5% 0,53.5% 0,100% 100%,0 100%);
+  background:repeating-linear-gradient(0deg,#e8261c 0 16px,#fff 16px 32px) left/100% 100%,#000}
+.road::after{content:"";position:absolute;left:0;right:0;top:0;height:250px;clip-path:polygon(47% 0,53% 0,98% 100%,2% 100%);
+  background:repeating-linear-gradient(0deg,#fff 0 12px,transparent 12px 36px) center/8px 100% no-repeat,#3a3a3a;animation:dash .45s linear infinite}
+@keyframes dash{to{background-position:center 36px}}
+.road .mtn{position:absolute;left:0;right:0;top:0;height:46px;background:#17177a;clip-path:polygon(0 100%,0 60%,8% 20%,14% 55%,22% 10%,31% 60%,40% 30%,47% 70%,53% 70%,60% 25%,70% 65%,79% 15%,88% 55%,95% 30%,100% 60%,100% 100%)}
+.road .car,.road .me{position:absolute}
+.road .car{top:0;left:calc(50% - 30px);width:60px;z-index:2;transform-origin:50% 0;animation:drive 4s ease-in infinite}
+.road .car svg,.road .me svg{display:block;width:100%;height:auto}
+.road .me{top:auto;bottom:8px;left:calc(50% - 38px);width:76px;transform-origin:50% 100%;animation:bob 1s ease-in-out infinite;z-index:3}
+@keyframes drive{from{transform:translate(calc(var(--lane)*var(--w)*.015),0) scale(.1)}to{transform:translate(calc(var(--lane)*var(--w)*.21),215px) scale(1.7)}}
+@keyframes bob{50%{transform:translateX(5px)}}
