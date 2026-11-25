@@ -143,10 +143,11 @@ function applyI18n() {
   $('#year').textContent = new Date().getFullYear();
 }
 
+const currentPage = () => location.pathname.split('/').pop() || 'index.html';
 function applyTheme() {
   const root = document.documentElement, id = MODES[mode];
   if (id === 'paper') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', id);
-  $$('.themes button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+  $$('.themes button').forEach(b => b.setAttribute('aria-pressed', String(PAGES[b.dataset.mode] === currentPage())));
 }
   
 function renderAll() {
@@ -211,18 +212,18 @@ lb.addEventListener('keydown', e => {
 });
 
 $$('.themes button').forEach(b => b.addEventListener('click', () => {
-  mode = b.dataset.mode;
-  try { localStorage.setItem('mode', mode); } catch (e) {}
-  applyTheme();
+  const target = PAGES[b.dataset.mode];
+  try { localStorage.setItem('mode', b.dataset.mode); sessionStorage.setItem('rt-scroll', String(window.scrollY)); } catch (e) {}
+  if (target && target !== currentPage()) location.href = target;
 }));
 
 const nav = $('#nav'), menuBtn = $('#menu-btn');
-const closeMenu = () => { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); };
+const closeMenu = () => { nav.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded', 'false'); };
 menuBtn.addEventListener('click', () => {
-  const o = nav.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(o));
+  const o = nav.classList.toggle('menu-open'); menuBtn.setAttribute('aria-expanded', String(o));
 });
 $$('#nav-links a').forEach(a => a.addEventListener('click', closeMenu));
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) { closeMenu(); menuBtn.focus(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('menu-open')) { closeMenu(); menuBtn.focus(); } });
 
 /* Lien actif dans la navigation */
 if ('IntersectionObserver' in window) {

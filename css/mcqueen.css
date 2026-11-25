@@ -1,0 +1,149 @@
+/* =====================================================================
+   Thème « Flash McQueen » : rouge course, éclair jaune, désert au couchant
+   Charge APRÈS racing.css. Intro : voir js/themefx.js (INTROS.mcqueen).
+   ===================================================================== */
+[data-theme="mcqueen"]{
+  --bg:#f7e6c4;--surface:#fff6e2;--surface-2:#f0d9a8;--line:#e2c88f;--line-2:#c79a52;
+  --text:#2b1408;--muted:#74532f;--text-soft:#4a2f1a;
+  --accent:#c81e14;--accent-ink:#fff;--accent-hover:#e12a1f;
+  --rail-bg:#b3141a;--rail-text:#fff4e0;--rail-muted:#ffd2b8;--rail-line:#ffd400;--rail-accent:#ffd400;--rail-ink:#2b1408;
+  --backdrop:rgba(43,12,8,.78);--strong:#c81e14;
+  --font-title:"Racing Sans One","Arial Black",sans-serif;--font-body:"Nunito",system-ui,sans-serif;--font-mono:"Nunito",system-ui,sans-serif;--radius:10px;
+}
+[data-theme="mcqueen"] body{
+  font-weight:500;
+  background-color:#f7e6c4;
+  background-image:
+    radial-gradient(520px 360px at 100% 0,rgba(255,196,80,.55),transparent 70%),
+    radial-gradient(700px 420px at 0 100%,rgba(200,30,20,.10),transparent 70%),
+    repeating-linear-gradient(115deg,rgba(199,154,82,.10) 0 2px,transparent 2px 26px);
+  background-attachment:fixed,fixed,scroll}
+[data-theme="mcqueen"] h1,[data-theme="mcqueen"] h2,[data-theme="mcqueen"] h3,[data-theme="mcqueen"] .brand,[data-theme="mcqueen"] #nav-links b{
+  font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:1}
+[data-theme="mcqueen"] h1{font-size:clamp(2.5rem,6vw,4.8rem);max-width:14ch;text-shadow:3px 3px 0 rgba(200,30,20,.16)}
+[data-theme="mcqueen"] h2{font-size:clamp(2rem,3.8vw,3rem)}
+[data-theme="mcqueen"] .brand{font-size:2.3rem}
+[data-theme="mcqueen"] #nav-links a b{font-size:1.35rem}
+[data-theme="mcqueen"] .big{font:400 1.55rem/1.25 var(--font-title);text-transform:none}
+[data-theme="mcqueen"] .role{font-weight:800}
+
+/* colonne : rouge + liseré jaune */
+[data-theme="mcqueen"] .nav{background:linear-gradient(180deg,#c81e14,#8f0f14);border-right:6px solid #ffd400}
+[data-theme="mcqueen"] .nav .btn,[data-theme="mcqueen"] .lang,[data-theme="mcqueen"] .themes{border-color:rgba(255,244,224,.5)}
+[data-theme="mcqueen"] .lang button{color:var(--rail-text)}
+[data-theme="mcqueen"] .nav .btn:hover{background:#ffd400;border-color:#ffd400;color:#2b1408}
+@media(max-width:1000px){
+  [data-theme="mcqueen"] .nav{border-right:0;border-bottom:4px solid #ffd400}
+}
+
+/* boutons */
+[data-theme="mcqueen"] .btn{border:2px solid var(--text);border-radius:999px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+[data-theme="mcqueen"] .btn.primary{border-color:#8f0f14;box-shadow:0 4px 0 #8f0f14}
+[data-theme="mcqueen"] .btn.primary:hover{transform:translateY(2px);box-shadow:0 2px 0 #8f0f14}
+
+/* sections : ligne d'arrivée à damier */
+[data-theme="mcqueen"] section::before{
+  height:12px;
+  background:conic-gradient(#2b1408 25%,#fff6e2 0 50%,#2b1408 0 75%,#fff6e2 0) 0 0/12px 12px}
+
+/* accueil : éclair jaune + route avec une voiture qui roule */
+[data-theme="mcqueen"] .hero{overflow:hidden;padding-bottom:clamp(7rem,12vw,9rem)}
+[data-theme="mcqueen"] .hero::before{
+  content:"";position:absolute;left:auto;right:5%;top:6%;width:clamp(120px,18vw,230px);height:auto;aspect-ratio:3/4;
+  background:linear-gradient(160deg,#ffe35a,#ffb800);opacity:.55;
+  clip-path:polygon(58% 0,6% 56%,40% 56%,24% 100%,94% 38%,56% 38%,84% 0)}
+[data-theme="mcqueen"] .hero::after{display:none}
+.mq-road{position:absolute;left:0;right:0;bottom:0;height:62px;z-index:0;pointer-events:none;overflow:hidden;
+  background:#2c2220;border-top:5px solid #f0d9a8}
+.mq-road::before{content:"";position:absolute;left:0;right:0;top:50%;height:5px;margin-top:-2px;
+  background:repeating-linear-gradient(90deg,#ffd400 0 46px,transparent 46px 96px);animation:mqDash .5s linear infinite}
+@keyframes mqDash{to{background-position-x:-96px}}
+.mq-drive{position:absolute;bottom:6px;left:0;width:118px;animation:mqDrive 9s linear infinite}
+.mq-drive svg{display:block;width:100%;overflow:visible}
+.mq-drive .spin{transform-origin:0 0;animation:mqSpin .22s linear infinite}
+@keyframes mqDrive{from{transform:translateX(-150px)}to{transform:translateX(calc(100vw + 40px))}}
+@keyframes mqSpin{to{transform:rotate(360deg)}}
+
+/* projets, fiches */
+[data-theme="mcqueen"] .prow .no{background:#ffd400;color:#2b1408;font-weight:800;font-family:var(--font-title);padding:.15rem .55rem;width:max-content;height:max-content;transform:skewX(-10deg);border-radius:4px}
+[data-theme="mcqueen"] .feat-card{border:0;border-left:8px solid #ffd400;border-radius:var(--radius)}
+[data-theme="mcqueen"] .prow:hover,[data-theme="mcqueen"] .prow:focus-within{background:rgba(255,246,226,.85)}
+[data-theme="mcqueen"] .tags li,[data-theme="mcqueen"] .chip{font-weight:700;border-radius:999px}
+[data-theme="mcqueen"] .photo.media{border:3px solid var(--text);border-radius:var(--radius);box-shadow:6px 6px 0 #c81e14}
+[data-theme="mcqueen"] dialog{border:3px solid var(--text)}
+[data-theme="mcqueen"] .footer{background:rgba(255,246,226,.5)}
+
+/* =====================================================================
+   INTRO « FLASH MCQUEEN » (≈ 5,4 s)
+   0-1,2 s : la voiture arrive au couchant, le nom s'écrit
+   2,4 s   : éclair, « KA-CHOW ! »
+   3,3 s   : départ à fond, lignes de vitesse    5,4 s : fin
+   ===================================================================== */
+.i-mcqueen{--ib:linear-gradient(180deg,#1b1038 0,#6e2656 34%,#ff7a3c 60%,#ffcf66 72%);color:#fff;font-family:"Racing Sans One","Arial Black",sans-serif}
+.i-mcqueen>*{pointer-events:none}
+.i-mcqueen .skip-i{pointer-events:auto}
+.i-mcqueen .sun{position:absolute;left:50%;bottom:28%;width:min(34vw,260px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,50%);
+  background:radial-gradient(circle,#fff6cf,#ffd36a 55%,#ff9a3c);box-shadow:0 0 90px 36px rgba(255,170,70,.55)}
+.i-mcqueen .mesa{position:absolute;bottom:28%}
+.i-mcqueen .m1{left:-4%;width:42vw;height:20vh;background:#5b1f3d;clip-path:polygon(0 100%,10% 34%,18% 34%,24% 0,66% 0,74% 34%,86% 34%,100% 100%)}
+.i-mcqueen .m2{right:-6%;width:50vw;height:15vh;background:#4a1833;clip-path:polygon(0 100%,12% 40%,28% 40%,34% 0,58% 0,66% 40%,82% 40%,100% 100%)}
+.i-mcqueen .gnd{position:absolute;left:0;right:0;bottom:0;height:28%;background:linear-gradient(#e0a158,#a85d2a)}
+.i-mcqueen .road{position:absolute;left:0;right:0;bottom:0;height:19%;background:#2c2220;border-top:6px solid #f0d9a8}
+.i-mcqueen .road::after{content:"";position:absolute;left:0;right:0;top:50%;height:7px;margin-top:-3px;
+  background:repeating-linear-gradient(90deg,#ffd400 0 70px,transparent 70px 140px);animation:mqRoad 5.4s forwards}
+@keyframes mqRoad{
+  0%{background-position-x:0;animation-timing-function:cubic-bezier(.1,.7,.3,1)}
+  22%{background-position-x:-1100px}
+  61%{background-position-x:-1100px;animation-timing-function:cubic-bezier(.55,.05,.9,.45)}
+  100%{background-position-x:-4400px}}
+
+.i-mcqueen .speed{position:absolute;left:0;right:0;top:0;bottom:0;opacity:0;animation:mqSpd 5.4s forwards,mqSpdRun .24s linear infinite;
+  background:linear-gradient(90deg,transparent,#fff,transparent) 0 22%/300px 2px repeat-x,linear-gradient(90deg,transparent,#ffd400,transparent) 0 34%/380px 3px repeat-x,
+  linear-gradient(90deg,transparent,#fff8,transparent) 0 48%/240px 2px repeat-x,linear-gradient(90deg,transparent,#ffd400,transparent) 0 66%/340px 3px repeat-x,
+  linear-gradient(90deg,transparent,#fff,transparent) 0 80%/260px 2px repeat-x}
+@keyframes mqSpd{0%,60%{opacity:0}67%,92%{opacity:1}100%{opacity:0}}
+@keyframes mqSpdRun{to{background-position-x:-1200px,-1140px,-880px,-1360px,-780px}}
+
+/* la voiture : arrive, attend, repart */
+.i-mcqueen .mq-car{position:absolute;left:50%;bottom:7.5%;width:min(520px,84vw);margin-left:calc(min(520px,84vw) / -2);animation:mqMove 5.4s forwards}
+.i-mcqueen .mq-car svg{display:block;width:100%;overflow:visible;animation:mqIdle .14s linear infinite,mqPitch 1s ease-out 3.3s}
+@keyframes mqIdle{50%{transform:translateY(.8px)}}
+@keyframes mqPitch{25%{transform:rotate(-2.2deg)}}
+@keyframes mqMove{
+  0%{transform:translateX(-78vw);animation-timing-function:cubic-bezier(.15,.8,.25,1)}
+  22%{transform:translateX(0)}
+  61%{transform:translateX(0);animation-timing-function:cubic-bezier(.55,.05,.9,.45)}
+  96%,100%{transform:translateX(138vw)}}
+.i-mcqueen .spin{transform-origin:0 0;animation:mqRoll 1.2s cubic-bezier(.1,.6,.3,1) forwards,mqSpin .08s linear 3.3s infinite}
+@keyframes mqRoll{to{transform:rotate(1080deg)}}
+
+/* nom */
+.i-mcqueen .mq-top{position:absolute;top:8vh;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:.9rem;padding:0 1rem}
+.i-mcqueen .mq-name{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0 .3em;
+  text-align:center;text-transform:uppercase;line-height:1;
+  font-size:clamp(2.2rem,8.6vw,7.4rem);text-shadow:4px 4px 0 #c81e14,8px 8px 0 rgba(0,0,0,.28);
+  clip-path:inset(0 100% 0 0);animation:mqName .9s .3s cubic-bezier(.2,.7,.2,1) forwards}
+.i-mcqueen .mq-name svg{height:.9em;width:auto;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.35))}
+@keyframes mqName{to{clip-path:inset(-10px -20px -20px -10px)}}
+.i-mcqueen .mq-sub{text-align:center;
+  font:800 clamp(.8rem,2.6vw,1.3rem)/1.2 "Nunito",system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ffe9a8;
+  opacity:0;animation:mqFade .6s 1.2s forwards}
+@keyframes mqFade{to{opacity:1}}
+
+/* KA-CHOW */
+.i-mcqueen .burst{position:absolute;left:50%;top:50%;width:min(80vw,620px);aspect-ratio:1;margin:calc(min(80vw,620px) / -2) 0 0 calc(min(80vw,620px) / -2);border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,255,255,.85) 0,rgba(255,212,0,.55) 28%,transparent 62%);animation:mqBurst .9s 2.4s ease-out forwards}
+@keyframes mqBurst{0%{opacity:0;transform:scale(.3)}25%{opacity:1}100%{opacity:0;transform:scale(1.5)}}
+.i-mcqueen .kachow{position:absolute;left:50%;top:50%;white-space:nowrap;opacity:0;text-transform:uppercase;
+  font-size:clamp(3rem,14vw,9rem);line-height:1;color:#ffd400;
+  -webkit-text-stroke:4px #8f0f14;paint-order:stroke fill;text-shadow:0 8px 0 #8f0f14,0 14px 24px rgba(0,0,0,.4);
+  animation:mqKa 1.2s 2.4s cubic-bezier(.2,.9,.3,1.2) forwards}
+@keyframes mqKa{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(2.8) rotate(-9deg)}
+  16%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-6deg)}
+  80%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(-6deg)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(.9) rotate(-6deg)}}
+.i-mcqueen .flash{position:absolute;inset:0;background:#fff;opacity:0;animation:mqFlash .3s 2.4s ease-out}
+@keyframes mqFlash{40%{opacity:.7}}
+
+@media(prefers-reduced-motion:reduce){.mq-drive,.mq-road::before{animation:none!important}.mq-drive{left:12%}}

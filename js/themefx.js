@@ -2,38 +2,7 @@
 (function () {
   var id = document.documentElement.dataset.theme;
   if (!id) return;
-
-  // Voiture vue de dos (pixel art)
-  function car(c, d) {
-    return '<svg viewBox="0 0 24 14" shape-rendering="crispEdges" aria-hidden="true">' +
-        '<rect x="1" y="8" width="4" height="6" fill="#111"/><rect x="19" y="8" width="4" height="6" fill="#111"/>' +
-        '<rect x="2" y="3" width="20" height="2" fill="' + d + '"/><rect x="3" y="5" width="18" height="7" fill="' + c + '"/>' +
-        '<rect x="7" y="1" width="10" height="5" fill="' + c + '"/><rect x="8" y="2" width="8" height="3" fill="#9fd6ff"/>' +
-        '<rect x="4" y="8" width="3" height="2" fill="#ff3030"/><rect x="17" y="8" width="3" height="2" fill="#ff3030"/></svg>';
-  }
-
-  // Retro : des voitures roulent sur la route de l'accueil
-  if (id === 'retro') {
-    var hero = document.querySelector('.hero');
-    if (hero) {
-      var list = [
-        ['#55ffff', '#1a8a8a', -1, 3.6, 0], 
-        ['#ff55ff', '#9a2a9a', 1, 4.4, 1.2],
-        ['#ffffff', '#999999', 1.75, 5, .6], 
-        ['#55ff55', '#1a8a1a', -1, 4.8, 2.9]];
-      var h = '<div class="mtn"></div>';
-      list.forEach(function (o) {
-        h += '<div class="car" style="--lane:' + o[2] + ';animation-duration:' + o[3] + 's;animation-delay:' + o[4] + 's">' + car(o[0], o[1]) + '</div>';
-      });
-      h += '<div class="me">' + car('#e8261c', '#8a120c') + '</div>';
-      var road = document.createElement('div');
-      road.className = 'road'; road.setAttribute('aria-hidden', 'true'); road.innerHTML = h;
-      hero.appendChild(road);
-      var fit = function () { road.style.setProperty('--w', road.clientWidth + 'px'); };
-      fit(); window.addEventListener('resize', fit);
-    }
-  }
-
+  
   // Roue vue de côté (pneu, flanc rouge, jante, 5 branches)
   function wheel(x, y, s) {
     return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><g class="spin">' +
@@ -62,24 +31,10 @@
   for (var k = 0; k < 18; k++) {
     smoke += '<i style="--d:' + (2.75 + k * 0.08).toFixed(2) + 's;--dx:' + (-70 - (k % 4) * 45) + '%"></i>';
   }
-
-  var TRACK = 'M70 150 L220 150 C250 150 270 135 268 112 L262 95 C258 82 244 78 232 84 L215 92 C205 97 196 90 200 80 L212 52 C218 38 204 28 190 34 L120 62 C106 68 96 60 100 48 L104 38 C108 26 96 20 84 26 L54 44 C38 53 32 70 40 88 L52 118 C60 138 70 140 70 150Z';
-
+  
   var INTROS = {
     f1: { ms: 6500, html: '<div class="speed"></div>' + '<div class="ground"></div>' + '<div class="lights">' + lights + '</div>' + '<div class="iname">Maël Lemaire</div>' + '<div class="smokewrap">' + smoke + '</div>' + '<div class="carwrap">' + F1CAR + '</div>' },
     f1vintage: { ms: 4600, html: '<div class="lights">' + lights + '</div><div class="go">Feu vert, c’est parti</div>' },
-    rallye: { ms: 4000, html: '<div class="fill"></div><div class="book"><p>SS1 · Maël Lemaire</p><b class="trip" data-count="1240" data-fmt="km" data-dur="2800" data-delay="300">0,00 km</b>' +
-          '<ul><li style="--i:0">0,00 km · Départ chronométré</li><li style="--i:1">0,25 km · Gauche 3 serré</li><li style="--i:2">0,60 km · Droite 4, ne pas couper</li><li style="--i:3">0,95 km · Bosse, gravier</li><li style="--i:4">1,24 km · Arrivée</li></ul></div>' },
-    motogp: { ms: 3900, html: '<div class="gauge"><svg viewBox="0 0 300 190" aria-hidden="true"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset=".65" stop-color="#ffd000"/><stop offset="1" stop-color="#ff2a00"/></linearGradient></defs>' +
-          '<path class="arc" d="M30 165 A120 120 0 0 1 270 165" fill="none" stroke="url(#gg)" stroke-width="16" stroke-dasharray="7 5"/>' +
-          '<g class="needle"><path d="M150 165 L150 62" stroke="#ff6a00" stroke-width="4" stroke-linecap="round"/><circle cx="150" cy="165" r="9" fill="#ff6a00"/></g></svg>' +
-          '<p class="kmh"><b data-count="312" data-fmt="int" data-dur="1200" data-delay="300">0</b> <small>km/h</small></p><p class="who">Maël Lemaire</p></div>' },
-    motogplemans: { ms: 3700, html: '<div class="map"><svg viewBox="0 0 320 200" aria-hidden="true"><path d="' + TRACK + '" fill="none" stroke="#d5d9e0" stroke-width="14" stroke-linejoin="round"/>' +
-          '<path class="draw" pathLength="1" d="' + TRACK + '" fill="none" stroke="#d90429" stroke-width="5" stroke-linejoin="round"/>' +
-          '<circle r="7" fill="#d90429" opacity="0"><set attributeName="opacity" to="1" begin=".4s" fill="freeze"/><animateMotion dur="2.4s" begin=".4s" fill="freeze" path="' + TRACK + '"/></circle></svg>' +
-          '<p class="lap" data-count="107312" data-fmt="lap" data-dur="2400" data-delay="400">0:00.000</p><p class="who">Maël Lemaire</p></div><div class="tri"></div>' },
-    retro: { ms: 3900, html: '<div class="rroad"></div><div class="term"><span class="ty" style="--n:18;--d:.3s">PREPARE TO QUALIFY</span><span class="ty y" style="--n:20;--d:1.4s">TIME 90   LAP 1   GO!</span></div>' +
-          '<div class="rcar">' + car('#e8261c', '#8a120c') + '</div><div class="flash"></div>' }
   };
 
   // F1 : compteur de vitesse dans le rail, sous « Contact », piloté par le défilement

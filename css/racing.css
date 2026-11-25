@@ -1,6 +1,5 @@
 /* Thèmes course (1/2) : f1, motogp, rallye — même disposition, autres décors */
 [data-theme]{--rail-ink:#0b0d12}
-.themes{display:none!important}
 .lang button[aria-pressed="true"]{color:var(--rail-ink)}
 section,.hero{position:relative}
 section::before{content:"";position:absolute;left:0;right:0;top:0}

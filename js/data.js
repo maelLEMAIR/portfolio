@@ -10,6 +10,13 @@ const MODES = {
   default: "auto"
 };
 
+/* Boutons soleil / lune : chacun ouvre une page HTML (un thème complet).
+   Mettez ici les noms de vos deux fichiers (la page principale s'appelle index.html). */
+const PAGES = {
+  light: "f1vintage.html",
+  dark: "index.html"
+};
+
 const SITE = {
   name: "Mawel",
   email: "m4w3l.pro@gmail.com",
